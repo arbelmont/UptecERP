@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Repository\Transaction\**" />
+    <EmbeddedResource Remove="Repository\Transaction\**" />
+    <None Remove="Repository\Transaction\**" />
+    <None Remove="Migrations\2019-05-11-NotaEntrada.sql" />
+    <Compile Remove="Migrations\20190601204025_initial.cs" />
+    <Compile Remove="Migrations\20190601204025_initial.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UoW\" />
+    <Folder Include="ModelConfig\Transportadora\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Uptec.Erp.Producao.Domain\Uptec.Erp.Producao.Domain.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Remove="Repository\ITransportadoraRepository.cs" />
+    <Compile Remove="Migrations\20190306150648_initial.Designer.cs" />
+    <Compile Remove="Migrations\20190306150648_initial.cs" />
+    <Compile Remove="Migrations\20190311202312_initial.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="..\Uptec.Erp.Api\appsettings.json" Link="appsettings.json" />
+  </ItemGroup>
+</Project>

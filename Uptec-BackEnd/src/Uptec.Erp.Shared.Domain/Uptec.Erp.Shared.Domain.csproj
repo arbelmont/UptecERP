@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Definitiva.Shared.Domain\Definitiva.Shared.Domain.csproj" />
+    <ProjectReference Include="..\Definitiva.Shared.Infra.Support\Definitiva.Shared.Infra.Support.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Cfop\" />
+  </ItemGroup>
+</Project>
