@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <h4 class="modal-title">Tipo Emissor
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+              <label for="componenteId" class="mb-0">Tipo Emissor</label>
+              <select type="text" class="form-control  form-control-sm" id="componenteId" 
+              ngbAutofocus [(ngModel)]="tipo">
+                <option value="0">Selecione...</option>
+                <option *ngFor="let t of tiposEmissor" [value]="t.value">{{t.name}}</option>
+              </select>
+            </div>
+          </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <a href="javascript:void(0)" (click)="close()" class="btn btn-raised btn-raised btn-warning mr-1">
+        <i class="ft-chevron-left"></i> Voltar
+    </a>
+    <button type="button" class="btn btn-raised btn-raised btn-primary" (click)="submit()" *ngIf="tipo > 0">
+        <i class="fa fa-check-square-o"></i> Salvar
+    </button>
+</div>

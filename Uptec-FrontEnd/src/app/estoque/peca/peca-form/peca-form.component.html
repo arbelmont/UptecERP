@@ -1,0 +1,227 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="content-header"><a [routerLink]="['/componente']" class="black">Peça</a></div>
+  </div>
+</div>
+
+<div class="row text-left">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 *ngIf="entityId; else newH4" class="card-title" id="basic-layout-form">{{ frm.get('descricao').value }}</h4>
+        <ng-template #newH4>Nova Peça</ng-template>
+      </div>
+      <div class="card-body">
+        <div class="card-block">
+          <form novalidate [formGroup]="frm" (ngSubmit)="onSubmit()" class="form" scrollFirstInvalid>
+            <div class="form-body">
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h4 class="form-section"><i class="ft-codepen"></i> Dados da Peça</h4>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="codigo" class="mb-0">Código</label>
+                        <input type="text" class="form-control form-control-sm" id="codigo" formControlName="codigo">
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.codigo">
+                          <p class="text-danger font-small-2" [innerHTML]="displayMessage.codigo"></p>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="ncm" class="mb-0">Ncm</label>
+                        <input type="text" class="form-control form-control-sm" id="ncm" formControlName="ncm">
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.ncm">
+                          <p class="text-danger font-small-2" [innerHTML]="displayMessage.ncm"></p>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="descricao" class="mb-0">Descrição</label>
+                        <input type="text" class="form-control form-control-sm" id="descricao"
+                          formControlName="descricao">
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.descricao">
+                          <p class="text-danger font-small-2" [innerHTML]="displayMessage.descricao"></p>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="codigoSaida" class="mb-0">Código Saída</label>
+                        <input type="text" class="form-control form-control-sm" id="codigoSaida"
+                          formControlName="codigoSaida">
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.codigoSaida">
+                          <p class="text-danger font-small-2" [innerHTML]="displayMessage.codigoSaida"></p>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="unidade" class="mb-0">Unidade de Medida</label>
+                        <select type="text" class="form-control  form-control-sm" id="unidade"
+                          formControlName="unidade">
+                          <option value="0">Selecione...</option>
+                          <option *ngFor="let u of unidadesMedida" [value]="u.value">
+                            {{ u.name }}
+                          </option>
+                        </select>
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.unidade">
+                          <p class="text-danger font-small-2" [innerHTML]="displayMessage.unidade"></p>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="revisao" class="mb-0">Revisão</label>
+                        <input type="text" class="form-control form-control-sm text-right" id="revisao"
+                          formControlName="revisao">
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.revisao">
+                          <p class="text-danger font-small-2" [innerHTML]="displayMessage.revisao"></p>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="tipo" class="mb-0">Tipo da Peça</label>
+                        <select type="text" class="form-control  form-control-sm" id="tipo"
+                          formControlName="tipo">
+                          <option value="0">Selecione...</option>
+                          <option *ngFor="let t of tipos" [value]="t.value">
+                            {{ t.name }}
+                          </option>
+                        </select>
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.tipo">
+                          <p class="text-danger font-small-2" [innerHTML]="displayMessage.tipo"></p>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="preco" class="mb-0">Preço</label>
+                        <input type="text" currencyMask class="form-control form-control-sm" id="preco"
+                          formControlName="preco">
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.preco">
+                          <p class="text-danger font-small-2" [innerHTML]="displayMessage.preco"></p>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="precoSaida" class="mb-0">Preço Saída</label>
+                        <input type="text" currencyMask class="form-control form-control-sm" id="precoSaida"
+                          formControlName="precoSaida">
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.precoSaida">
+                          <p class="text-danger font-small-2" [innerHTML]="displayMessage.precoSaida"></p>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="clienteId" class="mb-0">Cliente</label>
+                        <select type="text" class="form-control form-control-sm" id="clienteId"
+                          formControlName="clienteId">
+                          <option value="">Selecione...</option>
+                          <option *ngFor="let cliente of clientes$ | async" [value]="cliente.value">{{ cliente.name }}
+                          </option>
+                        </select>
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.clienteId">
+                          <p class="text-danger font-small-2" [innerHTML]="displayMessage.clienteId"></p>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+
+                  <div class="col-md-12 mb-3" *ngIf="showComponentes()">
+                    <h4 class="form-section"><i class="ft-codepen"></i> Componentes</h4>
+                    <table class="table table-sm table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th class="">
+                            <a href="javascript:void(0)" (click)="addComponente()" title="Adicionar"><span
+                                class="ft-plus-square font-medium-4"></span></a>
+                          </th>
+                          <th>Componente</th>
+                          <th class="text-right">Quantidade</th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="peca">
+                        <tr *ngFor='let componente of peca.componentes'>
+                          <td>
+                            <a href="javascript:void(0)"
+                              (click)="updateComponente(componente.componenteId, componente.quantidade)"
+                              title="Editar"><span class="ft-edit text-warning font-medium-2 mr-2"></span></a>
+                            <a href="javascript:void(0)"
+                              (click)="confirmDeletecomponente(componente.componenteId, componente.descricao)"
+                              title="Excluir">
+                              <span class="ft-trash text-danger font-medium-2"></span>
+                            </a>
+                          </td>
+                          <td>{{ componente.descricao }}</td>
+                          <td class="text-right">{{ componente.quantidade | number: '1.4-4':'pt' }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="col-md-12">
+                    <h4 class="form-section"><i class="icon-basket-loaded"></i> Fornecedores</h4>
+                    <table class="table table-sm table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th class="">
+                            <a href="javascript:void(0)" (click)="addFornecedor()" title="Adicionar"><span
+                                class="ft-plus-square font-medium-4"></span></a>
+                          </th>
+                          <th>Fornecedor</th>
+                          <th class="text-right">Código Peça</th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="peca">
+                        <tr *ngFor='let f of peca.codigosFornecedor'>
+                          <td>
+                            <a href="javascript:void(0)"
+                              (click)="updateFornecedor(f.fornecedorId, f.fornecedorCodigo)"
+                              title="Editar"><span class="ft-edit text-warning font-medium-2 mr-2"></span></a>
+                            <a href="javascript:void(0)"
+                              (click)="confirmDeleteFornecedor(f.fornecedorId, f.descricao)"
+                              title="Excluir">
+                              <span class="ft-trash text-danger font-medium-2"></span>
+                            </a>
+                          </td>
+                          <td>{{ f.descricao }}</td>
+                          <td class="text-right">{{ f.fornecedorCodigo }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                </div>
+
+
+              </div>
+
+              <div class="row">
+
+              </div>
+              <div class="form-actions">
+                <a [routerLink]="['/peca']" class="btn btn-raised btn-raised btn-warning mr-1">
+                  <i class="ft-chevron-left"></i> Voltar
+                </a>
+                <button type="submit" class="btn btn-raised btn-raised btn-primary">
+                  <i class="fa fa-check-square-o"></i> Salvar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

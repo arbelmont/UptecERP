@@ -1,0 +1,156 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="content-header"><a [routerLink]="['/peca']" class="black">Lotes Abertos - {{peca?.descricao}} </a></div>
+  </div>
+</div>
+<div class="row text-left">
+  <div class="col-md-9">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-block">
+          <table class="table table-sm table-hover mb-0">
+            <thead>
+              <tr>
+                <th class="text-right">Lote</th>
+                <th>Data</th>
+                <th>Nota</th>
+                <th class="text-right">R$ Ent Unit</th>
+                <th class="text-right">R$ Ent Total</th>
+                <th class="text-right">Qtde Entrada</th>
+                <th class="text-right">Saldo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let lote of lotes' (click)="getMovimentos(lote.id, lote.loteNumero)"
+                [ngClass]="getClassLoteSelected(lote.id)" style="cursor: pointer;">
+                <td class="text-right">{{lote.loteNumero}}</td>
+                <td>{{lote.data | date:'dd/MM/yyyy'}}</td>
+                <td>{{lote.notaFiscal}}</td>
+                <td class="text-right">{{lote.precoEntrada | number: '1.2-2':'pt'}}</td>
+                <td class="text-right">{{ (lote.precoEntrada * lote.quantidade) | number: '1.2-2':'pt'}}</td>
+                <td class="text-right">{{lote.quantidade}}</td>
+                <td class="text-right">{{lote.saldo}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="col-md-6">
+              <ngb-pagination [collectionSize]="listService.totalItems" [page]="listService.currentPage"
+                [pageSize]="listService.itemsPerPage" (pageChange)="pageChanged($event)" size="sm" class="ml-2"
+                *ngIf="showPagination">
+              </ngb-pagination>
+            </div>
+            <div class="col-md-6 mt-3 text-md-right">
+              <label class="">Total: {{ this.listService.totalItems }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card" *ngIf="loteId">
+      <div class="card-body">
+        <div class="card-block">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <span>
+                <h5>Movimentos Lote - {{loteNumero}}</h5>
+              </span>
+            </div>
+            <div class="col-md-12">
+              <table class="table table-sm table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th class="">
+
+                    </th>
+                    <th>Data</th>
+                    <th>Nota</th>
+                    <th>Histórico</th>
+                    <th>E/S</th>
+                    <th class="text-right">R$ Unit</th>
+                    <th class="text-right">R$ Total</th>
+                    <th class="text-right">Quantidade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let movimento of loteMovimentos" [ngClass]="getClass(movimento.tipoMovimento)">
+                    <td>
+                      <a href="javascript:void(0)" (click)="showMovimentoDetatlhe(movimento.id)" title="Detalhes do Movimento"><span
+                          class="ft-zoom-in text-warning font-medium-2 mr-2"></span></a>
+                    </td>
+                    <td>{{movimento.data | date:'dd/MM/yyyy'}}</td>
+                    <td>{{ movimento.notaFiscal }}</td>
+                    <td class="font-small-1">{{movimento.historico | truncateString}}</td>
+                    <td>{{getTipoMovimento(movimento.tipoMovimento)}}</td>
+                    <td class="text-right">{{movimento.precoUnitario | number: '1.2-2':'pt' }}</td>
+                    <td class="text-right">{{movimento.precoTotal | number: '1.2-2':'pt' }}</td>
+                    <td class="text-right">
+                      {{ movimento.tipoMovimento == 1 ? movimento.quantidade : (movimento.quantidade * -1)}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <ngb-pagination [collectionSize]="listService.totalItems2" [page]="listService.currentPage2"
+                [pageSize]="listService.itemsPerPage2" (pageChange)="pageChanged2($event)" size="sm" class="ml-2"
+                *ngIf="showPagination">
+              </ngb-pagination>
+            </div>
+            <div class="col-md-6 mt-3 text-md-right">
+              <label class="">Total: {{ this.listService.totalItems2 }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-block">
+          <table class="mb-0">
+            <tr>
+              <td colspan="2">
+                <div class="floating-btn-small">
+                  <a href="javascript:void(0)" class="btn btn-info mr-1 btn-fab btn-sm"
+                    title="Entrada manual de estoque" (click)="addMovimento('E')"><i class="ft-download"></i></a>
+                  <a href="javascript:void(0)" class="btn btn-danger mr-1 btn-fab btn-sm"
+                    title="Saída manual de estoque" (click)="addMovimento('S')"><i class="ft-upload"></i></a>
+                  <a href="javascript:void(0)" class="btn btn-warning mr-1 btn-fab btn-sm" title="Editar Componente"><i
+                      class="ft-edit"></i></a>
+                  <a [routerLink]="['/peca']" class="btn btn-grey mr-1 btn-fab btn-sm" title="Voltar"><i
+                      class="ft-corner-up-left"></i></a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-small-1 text-primary" colspan="2">{{peca?.descricao}}</td>
+            </tr>
+            <tr>
+              <th>Código:</th>
+              <td class="text-right">{{ peca?.codigo }}</td>
+            </tr>
+            <tr>
+              <th>Código Saída:</th>
+              <td class="text-right">{{ peca?.codigoSaida }}</td>
+            </tr>
+            <tr>
+              <th>Ncm:</th>
+              <td class="text-right">{{ peca?.ncm }}</td>
+            </tr>
+            <tr>
+              <th>Preço:</th>
+              <td class="text-right">{{ peca?.preco | number: '1.2-2':'pt' }}</td>
+            </tr>
+            <tr>
+              <th>Preço Saída:</th>
+              <td class="text-right">{{ peca?.precoSaida | number: '1.2-2':'pt'  }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

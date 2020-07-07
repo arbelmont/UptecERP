@@ -1,0 +1,109 @@
+<div class="modal-header">
+    <h4 class="modal-title"><span class="ft-trending-up mr-1"></span>Finalização da Ordem de Produção
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="card-title">
+                        <h5><span><i class="ft-trending-up"></i></span> Ordem de Produção</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm table-hover mb-0" *ngIf="ordem">
+                        <thead>
+                            <tr>
+                                <th class="text-right">Ordem</th>
+                                <th>Data Emissão</th>
+                                <th>Lote</th>
+                                <th>Código</th>
+                                <th>Peça</th>
+                                <th class="text-right">Qtde</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-right">{{ ordem.ordemNumero }}</td>
+                                <td>{{ ordem.dataEmissao | date:'dd/MM/yyyy' }}</td>
+                                <td>{{getLotes(ordem.id)}}</td>
+                                <td>{{getCodigo(ordem.id)}}</td>
+                                <td>{{getDescricao(ordem.id)}}</td>
+                                <td class="text-right">{{ordem.qtdeTotal}}</td>
+                                <td class="font-small-3">
+                                    <span
+                                        [ngClass]="getStatusClass(ordem.status)">{{ getDescricaoStatus(ordem.status) }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="card-title">
+                        <h5><span><i class="ft-list"></i></span> Lotes da Ordem de Produção</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-sm table-hover table-responsive mb-0" *ngIf="ordem">
+                        <thead>
+                            <tr>
+                                <th class="font-small-1">Lote</th>
+                                <th class="font-small-1">Código</th>
+                                <th class="font-small-1">Peça</th>
+                                <th class="font-small-1 text-right">Qtde Solicitada</th>
+                                <th class="font-small-1">Validade</th>
+                                <th class="font-small-1">Tipo Produção</th>
+                                <th class="font-small-1 text-right">Qtde Produzida</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of ordem?.ordemLotes">
+                                <td class="font-small-1 text-right">{{ item.loteSequenciaString }}</td>
+                                <td class="font-small-1">{{getCodigo(ordem.id)}}</td>
+                                <td class="font-small-1">{{getDescricao(ordem.id)}}</td>
+                                <td class="font-small-1 text-right">{{item.qtde}}</td>
+                                <td class="font-small-1">
+                                    <input type="date" [ngModel]="item.validade | date:'yyyy-MM-dd'" (ngModelChange)="item.validade = $event"
+                                    class="form-control form-control-sm font-small-1" />
+                                </td>
+                                <td>
+                                    <select type="text" class="form-control form-control-sm font-small-1" [(ngModel)]="item.motivoExpedicao">
+                                        <option *ngFor="let m of motivosExpedicao" [value]="m.value">{{m.name}}</option>
+                                      </select>
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control form-control-sm text-right font-small-1"
+                                        *ngIf="showQuantidade(item.motivoExpedicao)" [(ngModel)]="item.qtdeProduzida">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
+<div class="modal-footer">
+    <a href="javascript:void(0)" (click)="close()" class="btn btn-raised btn-raised btn-warning mr-1">
+        <i class="ft-chevron-left"></i> Voltar
+    </a>
+    <button type="button" class="btn btn-raised btn-raised btn-primary" (click)="submit()">
+        <i class="fa fa-check-square-o"></i> Salvar
+    </button>
+</div>

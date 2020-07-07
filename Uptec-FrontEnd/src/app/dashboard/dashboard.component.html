@@ -1,0 +1,97 @@
+<div class="row text-right">
+    <div class="col-12">
+        <div class="">
+            <p>{{dataString}}</p>
+        </div>
+    </div>
+</div>
+
+<div class="row" matchHeight="card" *ngIf="linhasProducao$ | async as linhasProducao">
+    <div class="col-xl-12 col-lg-12 col-12" *ngIf="linhasProducao">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Linhas de Produção</h4>
+            </div>
+            <div class="card-body">
+                <div class="card-block scroll">
+                    <table class="table table-sm table-hover mb-2">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase">Cliente</th>
+                                <th class="text-uppercase">Matéria</th>
+                                <th class="text-uppercase">Produto</th>
+                                <th class="text-right text-uppercase">Entrada</th>
+                                <th class="text-uppercase">Saldo</th>
+                                <th class="text-right text-uppercase">Em Produção</th>
+                                <th class="text-right text-uppercase">Em Expedição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let l of linhasProducao">
+                                <td>{{l.cliente}}</td>
+                                <td>{{l.materia}}</td>
+                                <td>{{l.produto}}</td>
+                                <td class="text-right">{{l.entrada}}</td>
+                                <td class="valign-middle">
+                                    <span class="font-small-2" >
+                                        <app-dashboard-progress [entrada]="l.entrada" [saldo]="l.saldo"></app-dashboard-progress>
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <span class="badge-pill badge-warning font-small-3 text-white"
+                                        *ngIf="l.producao > 0">
+                                        {{l.producao}}
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <span class="badge-pill badge-info font-small-3" *ngIf="l.expedicao > 0">
+                                        {{l.expedicao}}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" matchHeight="card" *ngIf="lotesSaldos$ | async as loteSaldo">
+    <div class="col-xl-12 col-lg-12 col-12" *ngIf="loteSaldo">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Embalagens/Vasilhames</h4>
+            </div>
+            <div class="card-body">
+                <div class="card-block scroll">
+                    <table class="table table-sm table-hover mb-2">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase">Cliente</th>
+                                <th class="text-uppercase">Código</th>
+                                <th class="text-uppercase">Descrição</th>
+                                <th class="text-right text-uppercase">Entrada</th>
+                                <th class="text-uppercase">Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let l of loteSaldo">
+                                <td>{{l.cliente}}</td>
+                                <td>{{l.codigo}}</td>
+                                <td>{{l.produto}}</td>
+                                <td class="text-right">{{l.entrada}}</td>
+                                <td class="valign-middle">
+                                    <span class="font-small-2" >
+                                        <app-dashboard-progress [entrada]="l.entrada" [saldo]="l.saldo"></app-dashboard-progress>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

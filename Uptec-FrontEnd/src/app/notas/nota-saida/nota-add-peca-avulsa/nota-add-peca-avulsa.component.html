@@ -1,0 +1,329 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="content-header">Emissão Nfe Avulsa para Peças</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-block mt-3">
+          <ngb-tabset>
+            <ngb-tab>
+              <ng-template ngbTabTitle>
+                Destinatário
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="mb-0 font-small-2">Tipo do Destinatário</label>
+                      <select type="text" class="form-control  form-control-sm" (change)="clearData()"
+                        [(ngModel)]="tipoDestinatario">
+                        <option *ngFor="let t of tiposDestinatario" [value]="t.value">
+                          {{ t.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-7">
+                    <div class="form-group">
+                      <label class="mb-0 font-small-2">Pesquisa</label>
+                      <input type="text" class="form-control form-control-sm font-small-2"
+                        placeholder="Informe o Nome ou Cnpj" [(ngModel)]="pesquisa">
+                    </div>
+                  </div>
+                  <div class="col-md-">
+                    <a href="javascript:void(0)" class="btn btn-raised btn-success btn-sm mt-3"
+                      (click)="searchDestinatario()">Pesquisar</a>
+                  </div>
+                </div>
+                <div class="row" *ngIf="destinatario">
+                  <div class="col-md-12 mt-2">
+                    <h6 class="form-section"><i class="ft-user"></i> Destinatário da Nota</h6>
+                    <table class="table table-sm table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th class="">
+                          </th>
+                          <th class="font-small-2">Destinatário</th>
+                          <th class="font-small-2">Cnpj</th>
+                          <th class="font-small-2">Inscrição Estadual</th>
+                          <th class="font-small-2">Email</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td class="font-small-2">{{destinatario.nomeFantasia}}</td>
+                          <td class="font-small-2">{{destinatario.cnpj}}</td>
+                          <td class="font-small-2">{{destinatario.inscricaoEstadual}}</td>
+                          <td class="font-small-2">{{destinatario.email}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <h6 class="form-section"><i class="ft-navigation"></i> Endereço</h6>
+                    <table class="table table-sm table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th class="">
+                          </th>
+                          <th class="font-small-2">Endereço</th>
+                          <th class="font-small-2">Bairro</th>
+                          <th class="font-small-2">CEP</th>
+                          <th class="font-small-2">Cidade</th>
+                          <th class="font-small-2">Estado</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let e of destinatario.enderecos; let i = index">
+                          <td><input type="radio" name="radioGroup" [checked]="i === 0" (value)="e.id"
+                              (change)="onChangeEndereco(e.id, e.estado)"> </td>
+                          <td class="font-small-2">{{e.logradouro}}, {{e.numero}}</td>
+                          <td class="font-small-2">{{e.bairro}}</td>
+                          <td class="font-small-2">{{e.cep}}</td>
+                          <td class="font-small-2">{{e.cidade}}</td>
+                          <td class="font-small-2">{{e.estado}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 mt-3">
+                    <hr>
+                    <div class="form-actions text-right">
+                      <a [routerLink]="['/emissaoNfe']" class="btn btn-raised btn-raised btn-warning mr-1">
+                        <i class="ft-chevron-left"></i> Voltar
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab [disabled]="showTabItens()">
+              <ng-template ngbTabTitle>
+                Itens
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h5 class="form-section"><i class="ft-package"></i> Seleção de lotes</h5>
+                      <table class="table table-sm table-hover mb-0" *ngIf="showLotes(); else noLotes">
+                        <thead>
+                          <tr>
+                            <th class="">
+                            </th>
+                            <th class="text-right font-small-1">Lote</th>
+                            <th class="font-small-1">Data</th>
+                            <th class="font-small-1">Código</th>
+                            <th class="font-small-1">Peça</th>
+                            <th class="text-right font-small-1">Saldo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor='let l of lotes'>
+                            <td class="text-right">
+                              <a href="javascript:void(0)" title="Adicionar Item" (click)="addLote(l)">
+                                <span class="ft-plus text-info font-medium-2"></span>
+                              </a>
+                            </td>
+                            <td class="text-right font-small-1">{{ l.loteSequenciaString }}</td>
+                            <td class="font-small-1">{{ l.data | date:'dd/MM/yyyy' }}</td>
+                            <td class="font-small-1">{{l.peca.codigo}}</td>
+                            <td class="font-small-1">{{l.peca.descricao}}</td>
+                            <td class="text-right font-small-1">{{l.saldo}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <ng-template #noLotes>
+                        <div class="text-danger text-center">
+                          <span>Destinatário sem lotes disponíveis para emissão de nota fiscal</span>
+                        </div>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-md-12">
+                      <h5 class="form-section"><i class="ft-list"></i> Itens da nota</h5>
+                      <table class="table table-sm table-hover mb-0">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th class="text-right font-small-1">Lote</th>
+                            <th class="font-small-1">Código</th>
+                            <th class="font-small-1">Peça</th>
+                            <th class="font-small-1">Cfop</th>
+                            <th class="font-small-1">Unidade</th>
+                            <th class="text-right font-small-1">R$ Unitário</th>
+                            <th class="text-right font-small-1">Quantidade</th>
+                            <th class="text-right font-small-1">R$ Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor='let item of notaItens; let i = index'>
+                            <td class="text-right">
+                              <a href="javascript:void(0)" title="Remover Item" (click)="removeLote(i)">
+                                <span class="ft-x text-danger font-medium-2"></span>
+                              </a>
+                            </td>
+                            <td class="text-right font-small-1">{{ item.loteSequenciaString }}</td>
+                            <td class="font-small-1">{{item.codigo}}</td>
+                            <td class="font-small-1">{{item.descricao}}</td>
+                            <td class="font-small-1">
+                              <input type="text" class="form-control form-control-sm" [(ngModel)]="item.cfop">
+                            </td>
+                            <td class="font-small-1">{{getUnidadeMedida(item.unidadeMedida)}}</td>
+                            <td class="text-right font-small-1">{{item.precoUnitario | number: '1.4-4':'pt'}}</td>
+                            <td class="text-right font-small-1">
+                              <input type="number" class="form-control form-control-sm text-right" (focusout)="atualizaTotalItem(item)"
+                                [(ngModel)]="item.quantidade">
+                            </td>
+                            <td class="text-right font-small-1">{{item.precoTotal | number: '1.2-4':'pt'}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 mt-3">
+                      <hr>
+                      <div class="form-actions text-right">
+                        <a [routerLink]="['/emissaoNfe']" class="btn btn-raised btn-raised btn-warning mr-1">
+                          <i class="ft-chevron-left"></i> Voltar
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab [disabled]="showTabComplemento()">
+              <ng-template ngbTabTitle>
+                Complemento
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="row">
+                  <div class="col-md-12">
+                    <h6 class="form-section"><i class="fa fa-road"></i> Frete</h6>
+                    <table class="table table-sm table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th class="font-small-2">Transportadora</th>
+                          <th class="font-small-2 text-right">Valor Frete</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <select type="text" class="form-control  form-control-sm" [(ngModel)]="notaSaidaAdd.transportadoraId">
+                              <option *ngFor="let t of transportadoras"
+                                [value]="t.value">{{ t.name }}</option>
+                            </select>
+                          </td>
+                          <td class="font-small-2">
+                            <input type="text" class="form-control form-control-sm"
+                              [(ngModel)]="notaSaidaAdd.valorFrete" currencyMask>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-6 mt-3">
+                    <h6 class="form-section"><i class="ft-briefcase"></i> Impostos</h6>
+                    <table class="table table-sm table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th class="">
+                          </th>
+                          <th class="font-small-2 text-right">% Icms</th>
+                          <th class="font-small-2 text-right">% Pis</th>
+                          <th class="font-small-2 text-right">% Cofins</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td class="font-small-2">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="impostos.icms"
+                              [disabled]="true" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }">
+                          </td>
+                          <td class="font-small-2">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="impostos.pis"
+                              [disabled]="true" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }">
+                          </td>
+                          <td class="font-small-2">
+                            <input type="text" class="form-control form-control-sm" [(ngModel)]="impostos.cofins"
+                              [disabled]="true" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }">
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-6 mt-3">
+                    <h6 class="form-section"><i class="ft-briefcase"></i> Outros Valores</h6>
+                    <table class="table table-sm table-hover mb-0">
+                      <thead>
+                        <tr>
+                          <th class="">
+                          </th>
+                          <th class="font-small-2 text-right">Valor Seguro</th>
+                          <th class="font-small-2 text-right">Outras Despesas</th>
+                          <th class="font-small-2 text-right">Desconto</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td></td>
+                          <td class="font-small-2">
+                            <input type="text" class="form-control form-control-sm" currencyMask
+                              [(ngModel)]="notaSaidaAdd.valorSeguro">
+                          </td>
+                          <td class="font-small-2">
+                            <input type="text" class="form-control form-control-sm" currencyMask
+                              [(ngModel)]="notaSaidaAdd.valorOutrasDespesas">
+                          </td>
+                          <td class="font-small-2">
+                            <input type="text" class="form-control form-control-sm" currencyMask
+                              [(ngModel)]="notaSaidaAdd.valorDesconto">
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <h6 class="form-section"><i class="ft-info"></i> Informações Adicionais</h6>
+                    <textarea type="text" rows="4" [(ngModel)]="notaSaidaAdd.outrasInformacoes"
+                      class="form-control form-control-sm"></textarea>
+                  </div>
+                  <div class="col-md-12 mt-3">
+                    <div class="form-actions text-right">
+                      <a [routerLink]="['/emissaoNfe']" class="btn btn-raised btn-raised btn-warning mr-1">
+                        <i class="ft-chevron-left"></i> Voltar
+                      </a>
+                      <button type="button" class="btn btn-raised btn-raised btn-primary" (click)="confirmSubmit()">
+                        <i class="fa fa-check-square-o"></i> Emitir Nfe
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <!-- <ngb-tab [disabled]="showTabEmissao()">
+              <ng-template ngbTabTitle>
+                Emissão
+              </ng-template>
+              <ng-template ngbTabContent>
+                
+              </ng-template>
+            </ngb-tab> -->
+          </ngb-tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

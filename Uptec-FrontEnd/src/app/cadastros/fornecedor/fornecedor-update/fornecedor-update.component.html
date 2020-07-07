@@ -1,0 +1,170 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="content-header"><a [routerLink]="['/fornecedor']" class="black">Fornecedors</a></div>
+  </div>
+</div>
+
+<div class="row text-left">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title" id="basic-layout-form">{{frm.get('nomeFantasia').value}}</h4>
+      </div>
+      <div class="card-body">
+        <div class="px-3">
+          <form novalidate [formGroup]="frm" (ngSubmit)="onSubmit()" class="form" scrollFirstInvalid>
+            <div class="form-body">
+              <h4 class="form-section"><i class="ft-layers"></i> Dados do Fornecedor</h4>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="razaoSocial" class="mb-0">Razão Social</label>
+                    <input type="text" id="razaoSocial" class="form-control form-control-sm"
+                      formControlName="razaoSocial">
+                    <span *ngIf="displayMessage.razaoSocial">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.razaoSocial"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="nomeFantasia" class="mb-0">Nome Fantasia</label>
+                    <input type="text" class="form-control form-control-sm" id="nomeFantasia"
+                      formControlName="nomeFantasia">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.nomeFantasia">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.nomeFantasia"></p>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="cnpj" class="mb-0">Cnpj</label>
+                    <input type="text" class="form-control form-control-sm" id="cnpj" formControlName="cnpj">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.cnpj">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.cnpj"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="inscricaoEstadual" class="mb-0">Inscrição Estadual</label>
+                    <input type="text" class="form-control form-control-sm" id="inscricaoEstadual"
+                      formControlName="inscricaoEstadual">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.inscricaoEstadual">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.inscricaoEstadual"></p>
+                    </span>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="email" class="mb-0">Email</label>
+                    <input type="email" id="email" class="form-control form-control-sm" formControlName="email">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.email">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.email"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="website" class="mb-0">Website</label>
+                    <input type="text" id="website" class="form-control form-control-sm" formControlName="website">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.website">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.website"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class=col-md-12>
+                  <div class="form-group">
+                    <label for="website" class="mb-0">Observações</label>
+                    <textarea id="observacoes" rows="2" class="form-control form-control-sm"
+                      formControlName="observacoes"></textarea>
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.observacoes">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.observacoes"></p>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <h4 class="form-section"><i class="ft-navigation"></i> Endereços <a href="javascript:void(0)" (click)="addEndereco()" title="Adicionar"><span
+                    class="ft-plus-square "></span></a></h4>
+                  <table class="table table-sm table-hover mb-1" *ngIf="enderecos$ | async as enderecos">
+                    <thead>
+                      <tr>
+                        <!-- <th class="">
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor='let endereco of enderecos'>
+                        <td>
+                          <a href="javascript:void(0)" (click)="updateEndereco(endereco.id)" title="Editar"><span
+                              class="ft-edit text-warning font-medium-2 mr-2"></span></a>
+                          <a href="javascript:void(0)" title="Excluir"
+                            (click)="confirmDeleteEndereco(endereco.id)">
+                            <span class="ft-trash text-danger font-medium-2"></span>
+                          </a>
+                        </td>
+                        <td>{{ endereco.logradouro + ", " + endereco.numero}}</td>
+                        <td class="d-none d-sm-table-cell">{{ endereco.cidade }}</td>
+                        <td>{{ endereco.estado }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <ng-template #loading>
+                    <span>...</span>
+                  </ng-template>
+                </div>
+                <div class="col-md-6">
+                  <h4 class="form-section"><i class="ft-mail"></i> Contatos <a href="javascript:void(0)" (click)="addTelefone()" title="Adicionar"><span
+                    class="ft-plus-square "></span></a></h4>
+                  <table class="table table-sm table-hover mb-1" *ngIf="telefones$ | async as telefones">
+                    <thead>
+                      <tr>
+                        <!-- <th class="">
+                        </th>
+                        <th>Contato</th>
+                        <th>Telefone</th> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor='let telefone of telefones'>
+                        <td>
+                          <a href="javascript:void(0)" (click)="updateTelefone(telefone.id)" title="Editar"><span
+                              class="ft-edit text-warning font-medium-2 mr-2"></span></a>
+                          <a href="javascript:void(0)" title="Excluir"
+                            (click)="confirmDeleteTelefone(telefone.id)">
+                            <span class="ft-trash text-danger font-medium-2"></span>
+                          </a>
+                        </td>
+                        <td>{{ telefone.contato }}</td>
+                        <ng-container *ngFor='let tipo of tipoTelefone$ | async'>
+                          <td *ngIf="tipo.value === telefone.tipo">{{ tipo.name }}</td>
+                        </ng-container>
+                        <td>{{ telefone.numero }}</td>
+                        <!-- <td>{{ endereco.estado }}</td> -->
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <a [routerLink]="['/fornecedor']" class="btn btn-raised btn-raised btn-warning mr-1">
+                <i class="ft-chevron-left"></i> Voltar
+              </a>
+              <button type="submit" class="btn btn-raised btn-raised btn-primary" [disabled]="!frm.dirty">
+                <i class="fa fa-check-square-o"></i> Salvar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

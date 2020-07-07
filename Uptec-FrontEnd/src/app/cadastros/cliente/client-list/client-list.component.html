@@ -1,0 +1,75 @@
+<div class="row text-left">
+    <div class="col-12">
+      <div class="content-header">Clientes</div>
+    </div>
+  </div>
+  <!--Basic Table Starts-->
+  <section id="simple-table">
+    <div class="row text-left">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h6 class="card-title mb-0">Pesquisa</h6>
+            <div class="input-group col-sm-4 pl-0 mb-0">
+              <input type="text" class="form-control" placeholder="" 
+              aria-describedby="button-addon4" [(ngModel)]="listService.searchText" (keyup.enter)="search()" >
+              <div class="input-group-append">
+                <span class="input-group-btn" id="button-addon4">
+                  <button class="btn btn-raised btn-primary" type="button" (click)="search()"><i class="fa fa-search"></i></button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-block">
+              <table class="table table-sm table-hover mb-0" *ngIf="clientes; else loading">
+                <thead>
+                  <tr>
+                    <th class="">
+                      <a [routerLink]="['adicionar']" title="Adicionar"><span class="ft-plus-square font-medium-4"></span></a>
+                    </th>
+                    <th>Nome Fantasia</th>
+                    <th class="d-none d-sm-table-cell">Razão Social</th>
+                    <th>Cnpj</th>
+                    <th class="d-none d-sm-table-cell">Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor='let cliente of clientes'>
+                    <td>
+                      <a [routerLink]="['editar', cliente.id]" title="Editar"><span class="ft-edit text-warning font-medium-2 mr-2"></span></a>
+                      <a href="javascript:void(0)" title="Excluir" 
+                        (click)="confirmDelete(cliente.id, cliente.nomeFantasia)">
+                        <span class="ft-trash text-danger font-medium-2"></span>
+                      </a>
+                    </td>
+                    <td>{{ cliente.nomeFantasia }}</td>
+                    <td class="d-none d-sm-table-cell">{{ cliente.razaoSocial }}</td>
+                    <td>{{ cliente.cnpj }}</td>
+                    <td class="d-none d-sm-table-cell">{{ cliente.email }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <ng-template #loading>
+                <app-progress></app-progress>
+              </ng-template>
+              <div class="row" >
+                <div class="col-md-6">
+                  <ngb-pagination [collectionSize]="listService.totalItems" 
+                                  [page]="listService.currentPage"
+                                  [pageSize]="listService.itemsPerPage"
+                                  (pageChange)="pageChanged($event)" 
+                                  [rotate]="true" [ellipses]="true" [maxSize]="listService.maxSize"
+                                  size="sm" class="ml-2" *ngIf="showPagination">
+                  </ngb-pagination>
+                </div>
+                <div class="col-md-6 mt-3 text-md-right">
+                  <label class="">Total: {{ this.listService.totalItems }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

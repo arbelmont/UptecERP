@@ -1,0 +1,126 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="content-header">Nova Ordem de Produção</div>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-block">
+          <div class="row">
+            <div class="col-md-4">
+              <label class="mt-2 text-bold-500">{{ peca?.descricao }}  {{ peca?.codigo }}</label>
+              <div class="input-group">
+                <input type="text" class="form-control" [(ngModel)]="pesquisa"
+                        placeholder="Pesquisar Peça" >
+                <div class="input-group-append">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-raised btn-success" title="Pesquisar Peça" (click)="searchPeca()">
+                      <i class="ft-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <h6 class="mt-3">Quantidade a Produzir</h6>
+              <div class="input-group">
+                <input type="number" class="form-control  text-right" [(ngModel)]="ordem.qtdeTotal"
+                  (change)="onChangeQuantidade()">
+                <div class="input-group-append">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-raised btn-success" title="Aplicar" (click)="aplicar()">
+                      <i class="ft-check"></i>
+                    </button>
+                    <button type="button" class="btn btn-raised btn-danger" title="Limpar" (click)="limpar()">
+                      <i class="ft-x"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8" *ngIf="lotes.length > 0">
+              <h6 class="mt-3">Lotes disponíveis</h6>
+              <table class="table table-sm table-hover mb-0" >
+                <thead>
+                  <tr>
+                    <th class="text-right text-bold">Lote</th>
+                    <th>Data</th>
+                    <th>Código</th>
+                    <th>Peça</th>
+                    <th class="text-right">Saldo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor='let lote of lotes'>
+                    <td class="text-right">{{ lote.loteSequenciaString }}</td>
+                    <td>{{ lote.data | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ lote.peca.codigo }}</td>
+                    <td>{{ lote.peca.descricao }}</td>
+                    <td class="text-right">{{ lote.saldo }}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-right" colspan=4>Total</th>
+                    <th class="text-right">{{totalLotes}}</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-block">
+          <h5 class="mt-3">Itens da Ordem de Produção</h5>
+          <table class="table table-sm table-hover mb-0">
+            <thead>
+              <tr>
+                <th class="text-right text-bold">Lote</th>
+                <th>Data</th>
+                <th>Código</th>
+                <th>Peça</th>
+                <th class="text-right">Saldo</th>
+                <th class="text-right">Qtde a Produzir</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let item of itens'>
+                <td class="text-right">{{ item.loteSequenciaString }}</td>
+                <td>{{ item.data | date:'dd/MM/yyyy' }}</td>
+                <td>{{ item.codigo }}</td>
+                <td>{{ item.descricao }}</td>
+                <td class="text-right">{{ item.saldo }}</td>
+                <td class="text-right">{{item.qtde}}</td>
+              </tr>
+              <tr>
+                <th class="text-right" colspan=5>Total a Produzir</th>
+                <th class="text-right" colspan=5>{{getItensTotal()}}</th>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
+          <div class="form-actions text-right">
+            <a [routerLink]="['/ordem']" class="btn btn-raised btn-raised btn-warning mr-1">
+              <i class="ft-chevron-left"></i> Voltar
+            </a>
+            <button type="button" class="btn btn-raised btn-raised btn-primary mr-1" *ngIf="getItensTotal() > 0"
+              (click)="submit()">
+              <i class="fa fa-check-square-o"></i> Salvar
+            </button>
+            <button type="button" class="btn btn-raised btn-raised btn-info" *ngIf="getItensTotal() > 0">
+              <i class="fa fa-check-square-o"></i> Plano de Preparação
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</div>

@@ -1,0 +1,121 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="content-header">Ordens de Produção</div>
+  </div>
+</div>
+<!--Basic Table Starts-->
+<div class="row text-left">
+  <div class="col-md-3">
+    <div class="card mr-0">
+      <div class="card-body m-2">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="floating-btn-small">
+              <a href="javascript:void(0)" class="btn btn-success mr-1 btn-fab btn-sm" title="Pesquisar"
+                (click)="search()"><i class="ft-search"></i></a>
+              <a [routerLink]="['adicionar']" class="btn btn-info mr-1 btn-fab btn-sm" title="Nova Ordem de Produção"><i
+                  class="ft-trending-up"></i></a>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="mb-0 font-small-1">Status</label>
+              <select type="text" class="form-control  form-control-sm" [(ngModel)]="pesquisaStatus">
+                <option value="0">Todos</option>
+                <option *ngFor="let s of status" [value]="s.value">{{s.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="mb-0 font-small-1">Pesquisar por</label>
+              <select type="text" class="form-control  form-control-sm" [(ngModel)]="pesquisaPor">
+                <option value="lote">Lote</option>
+                <option value="peca">Peça</option>
+                <option value="ordem">Ordem</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="mb-0 font-small-1">Pesquisa</label>
+              <input type="text" class="form-control form-control-sm font-small-2" [(ngModel)]="listService.searchText">
+            </div>
+          </div>
+          <div class="col-md-12">
+            <a href="javascript:void(0)" (click)="search()" class="btn btn-raised btn-success btn-sm">Pesquisar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-block">
+          <table class="table table-sm table-hover mb-0" *ngIf="ordems; else loading">
+            <thead>
+              <tr>
+                <th class="">
+
+                </th>
+                <th class="text-right font-small-1">Ordem</th>
+                <th class="font-small-1">Data</th>
+                <th class="font-small-1">Produção</th>
+                <th class="text-right font-small-1">Lote</th>
+                <th class="font-small-1">Código</th>
+                <th class="font-small-1">Peça</th>
+                <th class="text-right font-small-1">Qtde</th>
+                <th class="text-right font-small-1">Qtde Produzida</th>
+                <th class="font-small-1">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let ordem of ordems'>
+                <td class="text-right">
+                  <a href="javascript:void(0)" title="Expedição" *ngIf="showExpedicao(ordem.status)"
+                    (click)="expedicao(ordem.id)">
+                    <span class="icon-tag text-info font-medium-2 mr-2"></span>
+                  </a>
+                  <a href="javascript:void(0)" title="Cancelar" *ngIf="showDelete(ordem.status)"
+                    (click)="confirmDelete(ordem.id, ordem.ordemNumero)">
+                    <span class="ft-trash text-danger font-medium-2 mr-2"></span>
+                  </a>
+                  <a href="javascript:void(0)" title="Detalhes" (click)="detalhes(ordem.id)">
+                    <span class="ft-zoom-in text-warning font-medium-2 mr-2"></span>
+                  </a>
+                </td>
+                <td class="text-right font-small-1">{{ ordem.ordemNumero }}</td>
+                <td class="font-small-1">{{ ordem.dataEmissao | date:'dd/MM/yyyy' }}</td>
+                <td class="font-small-1">{{ ordem.dataProducao | date:'dd/MM/yyyy' }}</td>
+                <td class="text-right font-small-1">{{getLotes(ordem.id)}}</td>
+                <td class="font-small-1">{{ordem.codigoPeca}}</td>
+                <td class="font-small-1">{{ordem.descricaoPeca}}</td>
+                <td class="text-right font-small-1">{{ordem.qtdeTotal}}</td>
+                <td class="text-right font-small-1">{{ordem.qtdeTotalProduzida}}</td>
+                <td class="font-small-1">
+                  <span [ngClass]="getStatusClass(ordem.status)">{{ getDescricaoStatus(ordem.status) }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ng-template #loading>
+            <app-progress></app-progress>
+          </ng-template>
+          <div class="row">
+            <div class="col-md-6">
+              <ngb-pagination [collectionSize]="listService.totalItems" [page]="listService.currentPage"
+                [pageSize]="listService.itemsPerPage" [maxSize]="listService.maxSize" [rotate]="true" [ellipses]="true" 
+                (pageChange)="pageChanged($event)" size="sm" class="ml-2"
+                *ngIf="showPagination">
+              </ngb-pagination>
+            </div>
+            <div class="col-md-6 mt-3 text-md-right">
+              <label class="">Total: {{ this.listService.totalItems }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

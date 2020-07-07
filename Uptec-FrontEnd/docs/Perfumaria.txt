@@ -1,0 +1,4 @@
+Perfumarias
+=========================================================
+1) Deixar todo texto selecionado quando um textbox receber foco;
+2) Colocar máscaras quando um objeto perder foco e RETIRAR quando o mesmo receber foco;

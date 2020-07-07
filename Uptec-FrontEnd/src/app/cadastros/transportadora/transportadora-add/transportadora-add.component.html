@@ -1,0 +1,255 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="content-header"><a [routerLink]="['/transportadora']" class="black">Transportadoras</a></div>
+  </div>
+</div>
+
+<div class="row text-left">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title" id="basic-layout-form">Nova Transportadora</h4>
+      </div>
+      <div class="card-body">
+        <div class="px-3">
+          <form novalidate [formGroup]="frm" (ngSubmit)="onSubmit()" class="form" scrollFirstInvalid >
+            <!-- <app-transportadora-form-body [frm]="frm" 
+                                          [displayMessage]="displayMessage"
+                                          [formValidatorHelper]="formValidatorHelper">
+            </app-transportadora-form-body> -->
+            <div class="form-body">
+              <h4 class="form-section"><i class="ft-layers"></i> Dados da Transportadora</h4>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="razaoSocial" class="mb-0">Razão Social</label>
+                    <input type="text" id="razaoSocial" class="form-control form-control-sm" formControlName="razaoSocial">
+                    <span *ngIf="displayMessage.razaoSocial">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.razaoSocial"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="nomeFantasia" class="mb-0">Nome Fantasia</label>
+                    <input type="text" class="form-control form-control-sm" id="nomeFantasia" formControlName="nomeFantasia">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.nomeFantasia">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.nomeFantasia"></p>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="cnpj" class="mb-0">Cnpj</label>
+                    <input type="text" class="form-control form-control-sm" id="cnpj" formControlName="cnpj">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.cnpj">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.cnpj"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="inscricaoEstadual" class="mb-0">Inscrição Estadual</label>
+                    <input type="text" class="form-control form-control-sm" id="inscricaoEstadual"
+                      formControlName="inscricaoEstadual">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.inscricaoEstadual">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.inscricaoEstadual"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="projectinput5" class="mb-0">Tipo de entrega padrão</label>
+                    <select type="text" class="form-control  form-control-sm" id="tipoEntregaPadrao"
+                      formControlName="tipoEntregaPadrao">
+                      <option *ngFor="let tipo of tipoEntregaPadrao | async" [value]="tipo.value">{{ tipo.name }}</option>
+                    </select>
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.tipoEntregaPadrao">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.tipoEntregaPadrao"></p>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="email" class="mb-0">Email</label>
+                      <input type="email" id="email" class="form-control form-control-sm" formControlName="email">
+                      <span class="text-danger font-small-2" *ngIf="displayMessage.email">
+                        <p class="text-danger font-small-2" [innerHTML]="displayMessage.email"></p>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="website" class="mb-0">Website</label>
+                      <input type="text" id="website" class="form-control form-control-sm" formControlName="website">
+                      <span class="text-danger font-small-2" *ngIf="displayMessage.website">
+                        <p class="text-danger font-small-2" [innerHTML]="displayMessage.website"></p>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+            
+              <h4 class="form-section"><i class="ft-mail"></i> Contato</h4>
+            
+              <div class="row" formGroupName="telefone">
+                  <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="numero" class="mb-0">Contato</label>
+                        <input type="text" class="form-control form-control-sm" id="contato" formControlName="contato">
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.contato">
+                          <p class="text-danger font-small-2" [innerHTML]="displayMessage.contato"></p>
+                        </span>
+                      </div>
+                    </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="numero" class="mb-0">Telefone</label>
+                    <input type="text" class="form-control form-control-sm" id="numerot" formControlName="numerot">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.numerot">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.numerot"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="tipo" class="mb-0">Tipo</label>
+                    <select type="text" class="form-control  form-control-sm" id="tipo" formControlName="tipo">
+                      <option *ngFor="let tipo of telefoneTipos | async" [value]="tipo.value">{{ tipo.name }}</option>
+                    </select>
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.tipo">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.tipo"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label for="whatsapp" class="mb-0">WhatsApp</label>
+                    <select id="whatsapp" formControlName="whatsapp" class="form-control form-control-sm">
+                      <option value="true">Sim</option>
+                      <option value="false">Não</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="obervacoest" class="mb-0">Observações</label>
+                    <input type="text" id="observacoest" class="form-control form-control-sm" formControlName="observacoest">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.observacoest">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.observacoest"></p>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
+            
+              <h4 class="form-section"><i class="ft-navigation"></i> Endereço</h4>
+              <div formGroupName="endereco">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="cep" class="mb-0">Cep</label>
+                      <input type="text" id="cep" class="form-control form-control-sm" formControlName="cep" (blur)="buscaCep()">
+                      <span class="text-danger font-small-2" *ngIf="displayMessage.cep">
+                        <p class="text-danger font-small-2" [innerHTML]="displayMessage.cep"></p>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="logradouro" class="mb-0">Logradouro</label>
+                      <input type="text" id="logradouro" class="form-control form-control-sm" formControlName="logradouro">
+                      <span class="text-danger font-small-2" *ngIf="displayMessage.logradouro">
+                        <p class="text-danger font-small-2" [innerHTML]="displayMessage.logradouro"></p>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="numero" class="mb-0">Número</label>
+                      <input type="text" id="numero" class="form-control form-control-sm" formControlName="numero">
+                      <span class="text-danger font-small-2" *ngIf="displayMessage.numero">
+                        <p class="text-danger font-small-2" [innerHTML]="displayMessage.numero"></p>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                      <div class="form-group">
+                        <label for="complemento" class="mb-0">Complemento</label>
+                        <input type="text" id="complemento" class="form-control form-control-sm" formControlName="complemento">
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.complemento">
+                          <p class="text-danger font-small-2" [innerHTML]="displayMessage.complemento"></p>
+                        </span>
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                  
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="bairro" class="mb-0">Bairro</label>
+                      <input type="text" id="bairro" class="form-control form-control-sm" formControlName="bairro">
+                      <span class="text-danger font-small-2" *ngIf="displayMessage.bairro">
+                        <p class="text-danger font-small-2" [innerHTML]="displayMessage.bairro"></p>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="estado" class="mb-0">Estado</label>
+                    <select type="text" class="form-control  form-control-sm" id="estado" formControlName="estado">
+                      <option value="">Selecione...</option>
+                      <option *ngFor="let estado of estados | async" [value]="estado.sigla">{{ estado.nomeEstado }}</option>
+                    </select>
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.estado">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.estado"></p>
+                    </span>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="cidade" class="mb-0">Cidade</label>
+                      <select type="text" class="form-control  form-control-sm" id="cidade" formControlName="cidade">
+                        <option value="">Selecione...</option>
+                        <option *ngFor="let cidade of cidades" [value]="cidade.nome">{{ cidade.nome }}</option>
+                      </select>
+                      <span class="text-danger font-small-2" *ngIf="displayMessage.cidade">
+                        <p class="text-danger font-small-2" [innerHTML]="displayMessage.cidade"></p>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="cidade" class="mb-0">Tipo Endereço</label>
+                        <select type="text" class="form-control  form-control-sm" id="tipoEndereco" formControlName="tipoEndereco">
+                          <option *ngFor="let tipo of enderecoTipos | async" [value]="tipo.value">{{ tipo.name }}</option>
+                        </select>
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.tipoEndereco">
+                          <p class="text-danger font-small-2" [innerHTML]="displayMessage.tipoEndereco"></p>
+                        </span>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <h4 class="form-section"><i class="ft-info"></i> Observações</h4>
+              <div class="form-group">
+                <textarea id="observacoes" rows="2" class="form-control form-control-sm" formControlName="observacoes"></textarea>
+                <span class="text-danger font-small-2" *ngIf="displayMessage.observacoes">
+                  <p class="text-danger font-small-2" [innerHTML]="displayMessage.observacoes"></p>
+                </span>
+              </div>
+            </div>
+            <div class="form-actions">
+              <a [routerLink]="['/transportadora']" class="btn btn-raised btn-raised btn-warning mr-1">
+                <i class="ft-chevron-left"></i> Voltar
+              </a>
+              <button type="submit" class="btn btn-raised btn-raised btn-primary" [disabled]="!frm.dirty">
+                <i class="fa fa-check-square-o"></i> Salvar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

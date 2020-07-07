@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h4 class="modal-title"><span class="ft-inbox mr-1"></span>Selecione o destinatário da Nota
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="card-block">
+        <table class="table table-sm table-hover mb-0">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Cliente</th>
+                    <th>Cnpj</th>
+                    <th class="d-none d-sm-table-cell">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let cliente of clientes'>
+                    <td>
+                        <a href="javascript:void(0)" title="Selecionar Cliente" (click)="selecionar(cliente)">
+                            <span class="ft-plus text-info font-medium-2"></span>
+                        </a>
+                    </td>
+                    <td>{{ cliente.nomeFantasia }}</td>
+                    <td>{{ cliente.cnpj }}</td>
+                    <td class="d-none d-sm-table-cell">{{ cliente.email }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <a href="javascript:void(0)" (click)="close()" ngbAutofocus class="btn btn-raised btn-raised btn-warning mr-1">
+        <i class="ft-chevron-left"></i> Voltar
+    </a>
+</div>

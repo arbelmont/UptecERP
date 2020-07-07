@@ -1,0 +1,129 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="content-header"><a [routerLink]="['/lote']" class="black">Lote: {{ lote?.loteNumero}} --> [Peça: {{lote?.peca.codigo}} - {{lote?.peca.descricao}}] </a></div>
+  </div>
+</div>
+<div class="row text-left">
+  <div class="col-md-9">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-block">
+          <div class="row">
+            <!-- <div class="col-md-12 text-center">
+              <span>
+                <h5>Movimentos Lote - </h5>
+              </span>
+            </div> -->
+            <div class="col-md-12">
+              <table class="table table-sm table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th class="">
+
+                    </th>
+                    <th>Data</th>
+                    <th class="text-right">Seq.</th>
+                    <th>Nf</th>
+                    <th>Histórico</th>
+                    <th>E/S</th>
+                    <th class="text-right">R$ Unitário</th>
+                    <th class="text-right">R$ Total</th>
+                    <th class="text-right">Qtde</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let movimento of movimentos" [ngClass]="getClass(movimento.tipoMovimento)">
+                    <td>
+                      <a href="javascript:void(0)" (click)="showMovimentoDetatlhe(movimento.id)" title="Detalhes do Lote"><span
+                          class="ft-zoom-in text-warning font-medium-2 mr-2"></span></a>
+                    </td>
+                    <td>{{movimento.data | date:'dd/MM/yyyy'}}</td>
+                    <td class="text-right">{{movimento.loteSequencia}}</td>
+                    <td>{{ movimento.notaFiscal }}</td>
+                    <td class="font-small-1">{{movimento.historico | truncateString}}</td>
+                    <td>{{getTipoMovimento(movimento.tipoMovimento)}}</td>
+                    <td class="text-right">{{movimento.precoUnitario | number: '1.4-4':'pt' }}</td>
+                    <td class="text-right">{{movimento.precoTotal | number: '1.2-2':'pt' }}</td>
+                    <td class="text-right">
+                      {{ movimento.tipoMovimento == 1 ? movimento.quantidade : (movimento.quantidade * -1)}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <ngb-pagination [collectionSize]="listService.totalItems" [page]="listService.currentPage"
+                [pageSize]="listService.itemsPerPage" (pageChange)="pageChanged($event)" 
+                [rotate]="true" [ellipses]="true" [maxSize]="listService.maxSize"
+                size="sm" class="ml-2"
+                *ngIf="showPagination">
+              </ngb-pagination>
+            </div>
+            <div class="col-md-6 mt-3 text-md-right">
+              <label class="">Total: {{ this.listService.totalItems }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-block">
+          <table class="mb-0">
+            <tr>
+              <td colspan="2">
+                <div class="floating-btn-small">
+                  <a href="javascript:void(0)" class="btn btn-info mr-1 btn-fab btn-sm"
+                    title="Entrada manual de estoque" (click)="addMovimento('E')"><i class="ft-download"></i></a>
+                  <a href="javascript:void(0)" class="btn btn-danger mr-1 btn-fab btn-sm"
+                    title="Saída manual de estoque" (click)="addMovimento('S')"><i class="ft-upload"></i></a>
+                  <a [routerLink]="['/lote']" class="btn btn-grey mr-1 btn-fab btn-sm" title="Voltar"><i
+                      class="ft-corner-up-left"></i></a>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-small-1 text-primary" colspan="2">{{lote?.peca.descricao}}</td>
+            </tr>
+            <tr>
+              <th>Lote:</th>
+              <td class="text-right">{{ lote?.loteNumero }}</td>
+            </tr>
+            <tr>
+              <th>Data:</th>
+              <td class="text-right">{{ lote?.data | date:'dd/MM/yyyy' }}</td>
+            </tr>
+            <tr>
+              <th>Nf:</th>
+              <td class="text-right">{{ lote?.notaFiscal }}</td>
+            </tr>
+            <tr>
+              <th>Nf Cobertura:</th>
+              <td class="text-right">{{ lote?.notaFiscalCobertura }}</td>
+            </tr>
+            <tr>
+              <th>Preço Entrada:</th>
+              <td class="text-right">{{ lote?.precoEntrada | number: '1.4-4':'pt' }}</td>
+            </tr>
+            <tr>
+                <th>Qtde Inicial:</th>
+                <td class="text-right">{{ lote?.quantidade }}</td>
+              </tr>
+            <tr>
+              <th>Saldo:</th>
+              <td class="text-right text-bold-500">{{ lote?.saldo }}</td>
+            </tr>
+            <tr>
+              <th>Status:</th>
+              <td class="text-right text-bold-500">{{ lote?.status == 1? "Aberto" : "Fechado"  }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

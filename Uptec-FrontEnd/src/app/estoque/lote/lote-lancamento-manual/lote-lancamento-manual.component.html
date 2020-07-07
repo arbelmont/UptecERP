@@ -1,0 +1,90 @@
+<form novalidate [formGroup]="frm" (ngSubmit)="onSubmit()" class="form" scrollFirstInvalid>
+    <div class="modal-header">
+        <h4 *ngIf="tipoMovimento == 'E'; else saidaTitle" class="modal-title"><i class="ft-download"></i> Entrada manual
+        </h4>
+        <ng-template #saidaTitle>
+            <h4 class="modal-title"><i class="ft-upload"></i> Saída manual</h4>
+        </ng-template>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="loteId" class="mb-0">Lote</label>
+                        <select type="text" class="form-control  form-control-sm" id="loteId"
+                                 formControlName="loteId" ngbAutofocus>
+                                <option value="">Selecione...</option>
+                                <option *ngFor="let lote of dropdownLotes" [value]="lote.id">Lote: {{ lote.loteNumero }} --> Data: {{lote.data | date:'dd/MM/yyyy'}}</option>
+                              </select>
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.loteId">
+                            <p class="text-danger font-small-2" [innerHTML]="displayMessage.loteId"></p>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="data" class="mb-0">Data</label>
+                        <input type="date" id="data" class="form-control form-control-sm" formControlName="data"
+                            readonly>
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.data">
+                            <p class="text-danger font-small-2" [innerHTML]="displayMessage.data"></p>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="quantidade" class="mb-0">Quantidade</label>
+                        <input type="number" id="quantidade" class="form-control form-control-sm" formControlName="quantidade">
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.quantidade">
+                            <p class="text-danger font-small-2" [innerHTML]="displayMessage.quantidade"></p>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="precoUnitario" class="mb-0">Preço Unitário</label>
+                        <input type="text" id="precoUnitario" class="form-control form-control-sm" 
+                        formControlName="precoUnitario" currencyMask>
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.precoUnitario">
+                            <p class="text-danger font-small-2" [innerHTML]="displayMessage.precoUnitario"></p>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="notaFiscal" class="mb-0">NotaFiscal</label>
+                        <input type="text" id="notaFiscal" class="form-control form-control-sm" formControlName="notaFiscal">
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.notaFiscal">
+                            <p class="text-danger font-small-2" [innerHTML]="displayMessage.notaFiscal"></p>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="historico" class="mb-0">Histórico</label>
+                        <textarea rows="3" id="historico" class="form-control form-control-sm"
+                            formControlName="historico"></textarea>
+                        <span class="text-danger font-small-2" *ngIf="displayMessage.historico">
+                            <p class="text-danger font-small-2" [innerHTML]="displayMessage.historico"></p>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:void(0)" (click)="close()" class="btn btn-raised btn-raised btn-warning mr-1">
+            <i class="ft-chevron-left"></i> Voltar
+        </a>
+        <button type="submit" class="btn btn-raised btn-raised btn-primary" [disabled]="!frm.dirty">
+            <i class="fa fa-check-square-o"></i> Salvar
+        </button>
+    </div>
+</form>

@@ -1,0 +1,216 @@
+<div class="modal-header">
+    <h4 class="modal-title"><span class="ft-zoom-in mr-1"></span>Detalhes da Nota
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+            <h5 class="ml-2 "><span><i class="ft-inbox"></i></span> Dados da Nota </h5>
+            <table>
+                <tr>
+                    <th>Nº. Nota:</th>
+                    <td> {{ nota?.numeroNota }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Data:</th>
+                    <td class="font-small-2">{{ nota?.data | date:'dd/MM/yyyy' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Valor Base Cálculo:</th>
+                    <td class="font-small-2">{{ nota?.valorBaseCalculo | number: '1.2-4':'pt' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Valor Ipi:</th>
+                    <td class="font-small-2">{{ nota?.valorIpi | number: '1.2-4':'pt' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Valor Icms:</th>
+                    <td class="font-small-2">{{ nota?.valorIcms | number: '1.2-4':'pt' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Valor Pis:</th>
+                    <td class="font-small-2">{{ nota?.valorPis | number: '1.2-4':'pt' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Valor Cofins:</th>
+                    <td class="font-small-2">{{ nota?.valorCofins | number: '1.2-4':'pt' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Valor Frete:</th>
+                    <td class="font-small-2">{{ nota?.valorFrete | number: '1.2-4':'pt' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Valor Seguro:</th>
+                    <td class="font-small-2">{{ nota?.valorSeguro | number: '1.2-4':'pt' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Valor Desconto:</th>
+                    <td class="font-small-2">{{ nota?.valorDesconto | number: '1.2-4':'pt' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Valor Outras Despesas:</th>
+                    <td class="font-small-2">{{ nota?.valorOutrasDespesas | number: '1.2-4':'pt' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Valor Total Produtos:</th>
+                    <td class="font-small-2">{{ nota?.valorTotalProdutos | number: '1.2-4':'pt' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Valor Total da Nota:</th>
+                    <td class="font-small-2">{{ nota?.valorTotalNota | number: '1.2-4':'pt' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Status da Nota:</th>
+                    <td class="font-small-2" [ngClass]="getStatusClass(nota?.status)">
+                        {{ getDescricaoStatus(nota?.status) }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h5 class="ml-2"><span><i class="ft-user"></i></span> Dados do Destinatário</h5>
+            <table class="mb-0">
+                <tr class="px-0">
+                    <th>Cnpj:</th>
+                    <td>{{ nota?.destinatario.cnpj }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Nome:</th>
+                    <td class="font-small-2">{{ nota?.destinatario.nomeFantasia }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Email:</th>
+                    <td class="font-small-2">{{ nota?.destinatario.email }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Tipo:</th>
+                    <td class="font-small-2">{{ getDescricaoTipoDestinatario(nota?.tipoDestinatario) }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2" valign="top">Endereço:</th>
+                    <td class="font-small-2">{{ nota?.enderecoCompleto }}</td>
+                </tr>
+            </table>
+            <h5 class="ml-2 mt-2"><span><i class="ft-info"></i></span> Informações Complementares</h5>
+            <table class="mb-0">
+                <tr class="px-0">
+                    <th class="font-small-2" valign="top">Nota:</th>
+                    <td class="font-small-1">{{ nota?.outrasInformacoes }}</td>
+                </tr>
+                <tr class="px-0" *ngIf="showErroApi()">
+                    <th class="font-small-2 text-danger" valign="top">Erros Sefaz:</th>
+                    <td class="font-small-1 text-danger">{{ nota?.erroApi }}</td>
+                </tr>
+                
+            </table>
+            <h5 class="ml-2 mt-2"><span><i class="ft-sliders"></i></span> Ações</h5>
+            <div class="floating-btn-small">
+                <button type="button" class="btn btn-sm btn-fab btn-info" *ngIf="showDownloads()" title="Download Pdf" (click)="downloadPdf()">Pdf</button>
+                <button type="button" class="btn btn-sm btn-fab btn-warning" *ngIf="showDownloads()" title="Download Xml" (click)="downloadXml()">Xml</button>
+                <button type="button" class="btn btn-sm btn-fab btn-warning" *ngIf="showReenviar()" title="Reenviar nota" (click)="reenviarNota()">
+                    <i class="ft-upload-cloud"></i></button>
+                <button type="button" class="btn btn-sm btn-fab btn-success" (click)="getNota()" title="Atualizar"><i
+                        class="ft-refresh-cw"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="card-title">
+                        <h5><span><i class="ft-list"></i></span> Itens da Nota</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table-sm table-hover ml-2 mb-3">
+                        <thead>
+                            <tr>
+                                <th class="font-small-1">Código</th>
+                                <th class="font-small-1">Descrição</th>
+                                <th class="font-small-1">Cfop</th>
+                                <th class="font-small-1">Ncm</th>
+                                <th class="font-small-1">Un.</th>
+                                <th class="font-small-1 text-right">R$ Unit.</th>
+                                <th class="font-small-1 text-right">Qtde</th>
+                                <th class="font-small-1 text-right">R$ Icms</th>
+                                <th class="font-small-1 text-right">R$ Pis</th>
+                                <th class="font-small-1 text-right">R$ Cofins</th>
+                                <th class="font-small-1 text-right">R$ Total</th>
+                                <th class="font-small-1 text-right">Ordem</th>
+                                <th class="font-small-1 text-right">Lote</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of nota?.itens">
+                                <td class="font-small-1">{{item.codigo}}</td>
+                                <td class="font-small-1">{{item.descricao}}</td>
+                                <td class="font-small-1">{{item.cfop}}</td>
+                                <td class="font-small-1">{{item.ncm}}</td>
+                                <td class="font-small-1 text-center">{{getDescricaoUnidadeMedida(item.unidade)}}</td>
+                                <td class="font-small-1 text-right">{{item.valorUnitario | number: '1.4-4':'pt'}}</td>
+                                <td class="font-small-1 text-right">{{item.quantidade}}</td>
+                                <td class="font-small-1 text-right" [title]="percent(item.aliquotaIcms)">{{item.valorIcms | number: '1.2-4':'pt'}}</td>
+                                <td class="font-small-1 text-right" [title]="percent(item.aliquotaPis)">{{item.valorPis | number: '1.2-4':'pt'}}</td>
+                                <td class="font-small-1 text-right" [title]="percent(item.aliquotaCofins)">{{item.valorCofins | number: '1.2-4':'pt'}}</td>
+                                <td class="font-small-1 text-right" [title]="baseCalculo(item.valorBaseCalculo)">{{item.valorTotal | number: '1.2-4':'pt'}}</td>
+                                <td class="font-small-1 text-right">{{item.ordemNumero}}</td>
+                                <td class="font-small-1 text-right">{{LoteSequenciaString(item.loteNumero, item.loteSequencia)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="row" *ngIf="lotes$ | async as lotes">
+        <div class="col-md-12" *ngIf="lotes.length > 0">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="card-title">
+                        <h5><span><i class="ft-package"></i></span> Lotes</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table-sm table-hover ml-2 mb-3">
+                        <thead>
+                            <tr>
+                                <th class="font-small-2">Lote</th>
+                                <th class="font-small-2">Data</th>
+                                <th class="font-small-2">Código</th>
+                                <th class="font-small-2">Peça</th>
+                                <th class="font-small-2">Data Fab.</th>
+                                <th class="font-small-2">Data Val.</th>
+                                <th class="font-small-2 text-right">Qtde Entr.</th>
+                                <th class="font-small-2 text-right">Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let lote of lotes">
+                                <td class="font-small-2">{{lote.loteNumero}}</td>
+                                <td class="font-small-2">{{lote.data | date:'dd/MM/yyyy'}}</td>
+                                <td class="font-small-2">{{lote.peca.codigo}}</td>
+                                <td class="font-small-2">{{lote.peca.descricao}}</td>
+                                <td class="font-small-2">{{lote.dataFabricacao | date:'dd/MM/yyyy'}}</td>
+                                <td class="font-small-2">{{lote.dataValidade | date:'dd/MM/yyyy'}}</td>
+                                <td class="font-small-2 text-right">{{lote.quantidade}}</td>
+                                <td class="font-small-2 text-right">{{lote.saldo}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #semLotes></ng-template> -->
+    <div>
+        <!-- <span>{{nota | json}}</span> -->
+    </div>
+</div>
+<div class="modal-footer">
+    <a href="javascript:void(0)" (click)="close()" ngbAutofocus class="btn btn-raised btn-raised btn-warning mr-1">
+        <i class="ft-chevron-left"></i> Voltar
+    </a>
+</div>

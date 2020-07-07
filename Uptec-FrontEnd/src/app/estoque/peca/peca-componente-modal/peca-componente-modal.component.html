@@ -1,0 +1,48 @@
+<form novalidate [formGroup]="frm" (ngSubmit)="onSubmit()" class="form" >
+  <div class="modal-header">
+    <h4 class="modal-title"><i class="ft-codepen"></i> Componente</h4>
+    <!-- <h4 class="modal-title">Hi there!</h4> -->
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="form-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="componenteId" class="mb-0">Componente</label>
+            <select type="text" class="form-control  form-control-sm" id="componenteId" ngbAutofocus formControlName="componenteId">
+              <option value="">Selecione...</option>
+              <option *ngFor="let componente of componentes" [value]="componente.value">
+                {{ componente.name }}</option>
+            </select>
+            <span class="text-danger font-small-2" *ngIf="displayMessage.componenteId">
+              <p class="text-danger font-small-2" [innerHTML]="displayMessage.componenteId"></p>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="quantidade" class="mb-0">Quantidade</label>
+            <input type="text" class="form-control form-control-sm text-right" id="quantidade"
+              formControlName="quantidade" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }">
+            <span class="text-danger font-small-2" *ngIf="displayMessage.quantidade">
+              <p class="text-danger font-small-2" [innerHTML]="displayMessage.quantidade"></p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:void(0)" (click)="activeModal.dismiss('')" class="btn btn-raised btn-raised btn-warning mr-1">
+      <i class="ft-chevron-left"></i> Voltar
+    </a>
+    <button type="submit" class="btn btn-raised btn-raised btn-info" [disabled]="!frm.dirty">
+      <i class="fa fa-check-square-o"></i> Aplicar
+    </button>
+  </div>
+</form>

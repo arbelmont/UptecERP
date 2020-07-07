@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h4 class="modal-title"><span class="ft-inbox mr-1"></span>Selecione a peça
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="card-block">
+        <table class="table table-sm table-hover mb-0">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Peça</th>
+                    <th>Código</th>
+                    <th class="d-none d-sm-table-cell">Cliente</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let peca of pecas'>
+                    <td>
+                        <a href="javascript:void(0)" title="Selecionar Peça" (click)="selecionar(peca)">
+                            <span class="ft-plus text-info font-medium-2"></span>
+                        </a>
+                    </td>
+                    <td><a href="javascript:void(0)" title="Selecionar Peça" (click)="selecionar(peca)">{{ peca.descricao }}</a></td>
+                    <td><a href="javascript:void(0)" title="Selecionar Peça" (click)="selecionar(peca)">{{ peca.codigo }}</a></td>
+                    <td><a href="javascript:void(0)" title="Selecionar Peça" (click)="selecionar(peca)">{{ peca.cliente.nomeFantasia }}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <a href="javascript:void(0)" (click)="close()" ngbAutofocus class="btn btn-raised btn-raised btn-warning mr-1">
+        <i class="ft-chevron-left"></i> Voltar
+    </a>
+</div>

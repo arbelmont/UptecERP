@@ -1,0 +1,97 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="content-header">Lotes</div>
+  </div>
+</div>
+<!--Basic Table Starts-->
+<section id="simple-table">
+  <div class="row text-left">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="card-title mb-0">Pesquisa</h6>
+          <div class="input-group col-sm-4 pl-0 mb-0">
+            <input type="text" class="form-control" placeholder="" aria-describedby="button-addon4"
+              [(ngModel)]="listService.searchText" (keyup.enter)="search()">
+            <div class="input-group-append">
+              <span class="input-group-btn" id="button-addon4">
+                <button class="btn btn-raised btn-primary" type="button" (click)="search()"><i
+                    class="fa fa-search"></i></button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-block">
+            <table class="table table-sm table-hover mb-0" *ngIf="lotes; else loading">
+              <thead>
+                <tr>
+                  <th class="">
+                    
+                  </th>
+                <th class="text-right">Lote</th>
+                <th>Data</th>
+                <th>Nf</th>
+                <th>Nf Cob.</th>
+                <th>Código</th>
+                <th>Peça</th>
+                <th class="text-right">R$ Ent Unit</th>
+                <!-- <th class="text-right">R$ Ent Total</th> -->
+                <th class="text-right">Qtde Entrada</th>
+                <th class="text-right">Container Caixa</th>
+                <th>Localização</th>
+                <th class="text-right">Saldo</th>
+                <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor='let lote of lotes'>
+                  <td>
+                      <a [routerLink]="['movimento', lote.id]" title="Movimentações"><span
+                        class="ft-shuffle text-default font-medium-2 mr-2"></span></a>
+                  </td>
+                  <td class="text-right">{{ lote.loteSequenciaString }}</td>
+                  <td>{{ lote.data | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ lote.notaFiscal }}</td>
+                  <td>{{ lote.notaFiscalCobertura }}</td>
+                  <td>{{ lote.peca.codigo }}</td>
+                  <td>{{ lote.peca.descricao }}</td>
+                  <td class="text-right">{{ lote.precoEntrada | number: '1.4-4':'pt' }}</td>
+                  <!-- <td class="text-right">{{ (lote.precoEntrada * lote.quantidade) | number: '1.2-4':'pt' }}</td> -->
+                  <td class="text-right">{{ lote.quantidade }}</td>
+                  <td class="text-right">{{ lote.qtdeConcilia }}</td>
+                  <td>{{ lote.localizacao }}</td>
+                  <td class="text-right">{{ lote.saldo }}</td>
+                  <td class="font-small-3" >
+                    <span [ngClass]="getStatusClass(lote.status)">{{ getDescricaoStatus(lote.status) }}</span>
+                  </td>
+                  <!-- <td>
+                    <app-lote-progress [quantidade]="lote.quantidade"
+                      [quantidadeMinima]="lote.quantidadeMinima">
+                    </app-lote-progress>
+                  </td> -->
+                </tr>
+              </tbody>
+            </table>
+            <ng-template #loading>
+              <app-progress></app-progress>
+            </ng-template>
+            <div class="row">
+              <div class="col-md-6">
+                <ngb-pagination [collectionSize]="listService.totalItems" [page]="listService.currentPage"
+                  [pageSize]="listService.itemsPerPage" (pageChange)="pageChanged($event)" 
+                  [rotate]="true" [ellipses]="true" [maxSize]="listService.maxSize"
+                  size="sm" class="ml-2"
+                  *ngIf="showPagination">
+                </ngb-pagination>
+              </div>
+              <div class="col-md-6 mt-3 text-md-right">
+                <label class="">Total: {{ this.listService.totalItems }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

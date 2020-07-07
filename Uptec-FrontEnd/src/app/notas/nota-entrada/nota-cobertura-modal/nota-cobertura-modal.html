@@ -1,0 +1,185 @@
+<div class="modal-header">
+    <h4 class="modal-title"><span class="ft-refresh-cw mr-1"></span>Cobertura de Nota de Fornecedor
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mt-0">
+                <div class="card-body">
+                    <h5 class="font-bold-500">Nota do Fornecedor</h5>
+                    <div class="col-md-12 text-center" *ngIf="hasInconsistenciaFor">
+                        <ngb-alert type="danger" *ngIf="!alertCloseInconsistenciaFor"
+                            (close)="alertCloseInconsistenciaFor = true">
+                            <p class="mb-0"><span><i class="ft-alert-triangle text-bold-800"></i></span><strong>
+                                    Inconsistências!!</strong></p>
+                            <p class="mb-0" *ngFor="let erro of notaFornecedor.inconsistencias">{{ erro }}</p>
+                        </ngb-alert>
+                    </div>
+                    <table class="table table-sm table-hover mb-0" *ngIf="notaFornecedor">
+                        <thead>
+                            <tr>
+                                <th class="font-small-2">Data</th>
+                                <th class="font-small-2">Nf</th>
+                                <th class="font-small-2">Tipo</th>
+                                <th class="font-small-2">Cnpj</th>
+                                <th class="font-small-2">Emissor</th>
+                                <th class="font-small-2">Cfop</th>
+                                <th class="text-right font-small-2">Valor</th>
+                                <th class="font-small-2">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-small-1">{{ notaFornecedor.data | date:'dd/MM/yyyy' }}</td>
+                                <td class="font-small-1">{{ notaFornecedor.numeroNota }}</td>
+                                <td class="font-small-1">{{ getDescricaoTipoEmissor(notaFornecedor.tipoEmissor) }}</td>
+                                <td class="font-small-1">{{ notaFornecedor.cnpjEmissor }}</td>
+                                <td class="font-small-1">{{ notaFornecedor.nomeEmissor }}</td>
+                                <td class="font-small-1">{{ notaFornecedor.cfop }}</td>
+                                <td class="text-right font-small-1">{{notaFornecedor.valor | number: '1.2-4':'pt'}}</td>
+                                <td class="font-small-1"><span
+                                        [ngClass]="getStatusClass(notaFornecedor.status)">{{ getDescricaoStatus(notaFornecedor.status)  }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h6 class="font-bold-500 mt-3">Itens</h6>
+                    <table class="table-sm table-hover ml-2 mb-3">
+                        <thead>
+                            <tr>
+                                <th class="font-small-2">Código</th>
+                                <th class="font-small-2">Descrição</th>
+                                <th class="font-small-2">Cfop</th>
+                                <th class="font-small-2 text-right">R$ Unit.</th>
+                                <th class="font-small-2">Un.</th>
+                                <th class="font-small-2 text-right">Qtde</th>
+                                <th class="font-small-2 text-right">Lote </th>
+                                <th class="font-small-2">Fabricação </th>
+                                <th class="font-small-2">Validade </th>
+                                <th class="font-small-2">Status </th>
+                                <th class="font-small-2">Cobertura</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of notaFornecedor?.itens">
+                                <td class="font-small-1">{{item.codigo}}</td>
+                                <td class="font-small-1">{{item.descricao}}</td>
+                                <td class="font-small-1">{{item.cfop}}</td>
+                                <td class="font-small-1 text-right">{{item.precoUnitario | number: '1.4-4':'pt'}}</td>
+                                <td class="font-small-1 text-center">{{getDescricaoUnidadeMedida(item.unidade)}}</td>
+                                <td class="font-small-1 text-right">{{item.quantidade}}</td>
+                                <td class="font-small-2 text-right">{{item.lote}} </td>
+                                <td class="font-small-1 text-right">{{item.dataFabricacao | date:'dd/MM/yyyy'}}</td>
+                                <td class="font-small-1 text-right">{{item.dataValidade | date:'dd/MM/yyyy'}}</td>
+                                <td class="font-small-1" [ngClass]="getItemStatusClass(item.status)">
+                                    {{getItemDescricaoStatus(item.status)}}
+                                </td>
+                                <td class="text-center font-medium-3">
+                                    <span class="ft-check text-success" *ngIf="item.cobrir; else naoCobrir" title="Item com cobertura"></span>
+                                    <ng-template #naoCobrir>
+                                        <span class="ft-x text-danger" title="Item sem cobertura"></span>
+                                    </ng-template>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <fieldset class="form-group position-relative">
+            <select class="form-control font-small-2" (change)="notaCoberturaChange($event.target.value)">
+                <option value="0">Selecione a nota de cobertura...</option>
+                <option *ngFor="let nfCliente of dropDownClientes$ | async" [value]="nfCliente.value">
+                    {{ nfCliente.name }}
+                </option>
+            </select>
+        </fieldset>
+    </div>
+    <div class="row" *ngIf="notaCliente">
+        <div class="col-md-12">
+            <div class="card mt-0">
+                <div class="card-body">
+                    <h5 class="font-bold-500">Nota do Cliente</h5>
+                    <div class="col-md-12 text-center" *ngIf="hasInconsistenciaCli">
+                        <ngb-alert type="danger" *ngIf="!alertCloseInconsistenciaCli"
+                            (close)="alertCloseInconsistenciaCli = true">
+                            <p class="mb-0"><span><i class="ft-alert-triangle text-bold-800"></i></span><strong>
+                                    Inconsistências!!</strong></p>
+                            <p class="mb-0" *ngFor="let erro of notaCliente.inconsistencias">{{ erro }}</p>
+                        </ngb-alert>
+                    </div>
+                    <table class="table table-sm table-hover mb-0" *ngIf="notaCliente">
+                        <thead>
+                            <tr>
+                                <th class="font-small-2">Data</th>
+                                <th class="font-small-2">Nf</th>
+                                <th class="font-small-2">Tipo</th>
+                                <th class="font-small-2">Cnpj</th>
+                                <th class="font-small-2">Emissor</th>
+                                <th class="font-small-2">Cfop</th>
+                                <th class="text-right font-small-2">Valor</th>
+                                <th class="font-small-2">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-small-1">{{ notaCliente.data | date:'dd/MM/yyyy' }}</td>
+                                <td class="font-small-1">{{ notaCliente.numeroNota }}</td>
+                                <td class="font-small-1">{{ getDescricaoTipoEmissor(notaCliente.tipoEmissor) }}</td>
+                                <td class="font-small-1">{{ notaCliente.cnpjEmissor }}</td>
+                                <td class="font-small-1">{{ notaCliente.nomeEmissor }}</td>
+                                <td class="font-small-1">{{ notaCliente.cfop }}</td>
+                                <td class="text-right font-small-1">{{notaCliente.valor | number: '1.2-2':'pt'}}</td>
+                                <td class="font-small-1"><span
+                                        [ngClass]="getStatusClass(notaCliente.status)">{{ getDescricaoStatus(notaCliente.status)  }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h6 class="font-bold-500 mt-3">Itens</h6>
+                    <table class="table-sm table-hover ml-2 mb-3">
+                        <thead>
+                            <tr>
+                                <th class="font-small-2">Código</th>
+                                <th class="font-small-2">Descrição</th>
+                                <th class="font-small-2">Cfop</th>
+                                <th class="font-small-2 text-right">R$ Unit.</th>
+                                <th class="font-small-2">Un.</th>
+                                <th class="font-small-2 text-right">Qtde</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of notaCliente?.itens">
+                                <td class="font-small-1">{{item.codigo}}</td>
+                                <td class="font-small-1">{{item.descricao}}</td>
+                                <td class="font-small-1">{{item.cfop}}</td>
+                                <td class="font-small-1 text-right">{{item.precoUnitario | number: '1.2-4':'pt'}}</td>
+                                <td class="font-small-1 text-center">{{getDescricaoUnidadeMedida(item.unidade)}}</td>
+                                <td class="font-small-1 text-right">{{item.quantidade}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <!-- <span>{{nota | json}}</span> -->
+    </div>
+</div>
+<div class="modal-footer">
+    <a href="javascript:void(0)" (click)="close()" class="btn btn-raised btn-raised btn-warning mr-1">
+        <i class="ft-chevron-left"></i> Voltar
+    </a>
+    <button type="button" class="btn btn-raised btn-raised btn-primary" (click)="submit()"
+        *ngIf="!hasInconsistenciaFor && !hasInconsistenciaCli && qtdeCobertura > 0">
+        <i class="fa fa-check-square-o"></i> Cobrir
+    </button>
+</div>

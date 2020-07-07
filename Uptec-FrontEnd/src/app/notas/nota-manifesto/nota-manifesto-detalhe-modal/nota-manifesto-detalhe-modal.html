@@ -1,0 +1,181 @@
+<div class="modal-header">
+    <h4 class="modal-title"><span class="ft-zoom-in mr-1"></span>Detalhes do Cabeçalho da Nfe
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center">
+                <h5 class="ml-2 "><span><i class="ft-inbox"></i></span> Dados do cabeçalho </h5>
+                <table class="mb-0 table-sm text-center ml-10">
+                    <tr class="m-0">
+                        <th class="m-0 text-right">Nome Emitente:</th>
+                        <td class="m-0 text-left"> {{ manifesto?.nomeEmitente }}</td>
+                    </tr>
+                    <tr class="m-0">
+                        <th class="m-0 text-right">Documento Emitente:</th>
+                        <td class="m-0 text-left"> {{ manifesto?.documentoEmitente }}</td>
+                    </tr>
+                    <tr class="m-0">
+                        <th class="m-0 text-right">Chave Nfe:</th>
+                        <td class="m-0 text-left"> {{ manifesto?.chaveNfe }}</td>
+                    </tr>
+                    <tr class="m-0">
+                        <th class="m-0 text-right">Valor Total:</th>
+                        <td class="m-0 text-left"> {{ manifesto?.valorTotal | number: '1.2-4':'pt' }}</td>
+                    </tr>
+                    <tr class="m-0">
+                        <th class="m-0 text-right">Data Emissão:</th>
+                        <td class="m-0 text-left"> {{ manifesto?.dataEmissao | date:'dd/MM/yyyy' }}</td>
+                    </tr>
+                    <tr class="m-0">
+                        <th class="m-0 text-right">Situação:</th>
+                        <td class="m-0 text-left"> {{ getDescricaoSituacao(manifesto?.situacao) }}</td>
+                    </tr>
+                    <tr class="m-0">
+                        <th class="m-0 text-right">Completa:</th>
+                        <td class="m-0 text-left"> {{ notaCompleta(manifesto?.nfeCompleta) }}</td>
+                    </tr>
+                    <tr class="m-0">
+                        <th class="m-0 text-right">Tipo Nfe:</th>
+                        <td class="m-0 text-left"> {{ getDescricaoTipoNfe(manifesto?.tipoNfe) }}</td>
+                    </tr>
+                    <tr class="m-0">
+                        <th class="m-0 text-right">Versão:</th>
+                        <td class="m-0 text-left"> {{ manifesto?.versao }}</td>
+                    </tr>
+                    <tr class="m-0">
+                        <th class="m-0 text-right">Data de Inclusão:</th>
+                        <td class="m-0 text-left"> {{ manifesto?.dataInclusao | date:'dd/MM/yyyy' }}</td>
+                    </tr>
+                    <tr class="m-0" *ngIf="manifesto?.notificacao">
+                        <th class="m-0 text-right text-danger">Erros Sefaz:</th>
+                        <td class="m-0 text-left  text-danger"> {{ manifesto?.notificacao }}</td>
+                    </tr>
+                    <!--  <tr>
+                    <th class="font-small-2">Notas de Cobertura:</th>
+                    <td class="font-small-2">{{ nota?.numeroNotaCobertura }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Data:</th>
+                    <td class="font-small-2">{{ nota?.data | date:'dd/MM/yyyy' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Data Conciliação:</th>
+                    <td class="font-small-2">{{ nota?.dataConciliacao | date:'dd/MM/yyyy' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Cfop:</th>
+                    <td class="font-small-2">{{ nota?.cfop }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Valor Total:</th>
+                    <td class="font-small-2">{{ nota?.valor | number: '1.2-4':'pt' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Status da Nota:</th>
+                    <td class="font-small-2" [ngClass]="getStatusClass(nota?.status)">
+                        {{ getDescricaoStatus(nota?.status) }}</td>
+                </tr> -->
+                </table>
+            </div>
+        </div>
+        <!--  <div class="col-md-6">
+            <h5 class="ml-2"><span><i class="ft-user"></i></span> Dados do Emissor</h5>
+            <table class="mb-0 table-sm">
+                <tr class="px-0">
+                    <th>Cnpj:</th>
+                    <td>{{ nota?.cnpjEmissor }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Nome:</th>
+                    <td class="font-small-2">{{ nota?.nomeEmissor }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Email:</th>
+                    <td class="font-small-2">{{ nota?.emailEmissor }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Tipo:</th>
+                    <td class="font-small-2">{{ getDescricaoTipoEmissor(nota?.tipoEmissor) }}</td>
+                </tr>
+            </table>
+            <h5 class="ml-2 mt-2"><span><i class="ft-sliders"></i></span> Ações</h5>
+            <div class="floating-btn-small">
+                <button type="button" class="btn btn-sm btn-fab btn-info" title="Download Xml"><i
+                        class="ft-download"></i></button>
+            </div>
+        </div>
+        <div class="col-md-12 text-center" *ngIf="hasInconsistencia">
+            <ngb-alert type="danger" *ngIf="!alertCloseInconsistencia" (close)="alertCloseInconsistencia = true">
+                <p class="mb-0"><span><i class="ft-alert-triangle text-bold-800"></i></span><strong>
+                        Inconsistências!!</strong></p>
+                <p class="mb-0" *ngFor="let erro of nota.inconsistencias">{{ erro }}</p>
+            </ngb-alert>
+        </div>
+        <div class="col-md-12 text-center" *ngIf="nota?.qtdeNotasAcobrir > 0">
+            <ngb-alert type="warning" *ngIf="!alertCloseCobertura" (close)="alertCloseCobertura = true">
+                <p class="mb-0"><strong>Atenção!!</strong></p>
+                <p class="mb-0">Existe(m) {{ nota?.qtdeNotasAcobrir }} nota(s) aguardando cobertura, veirifique se essa
+                    nota é de cobertura.</p>
+            </ngb-alert>
+        </div> -->
+    </div>
+    <!-- <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="card-title">
+                        <h5><span><i class="ft-list"></i></span> Itens da Nota</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table-sm table-hover ml-2 mb-3">
+                        <thead>
+                            <tr>
+                                <th class="font-small-2">Código</th>
+                                <th class="font-small-2">Descrição</th>
+                                <th class="font-small-2">Cfop</th>
+                                <th class="font-small-2 text-right">R$ Unit.</th>
+                                <th class="font-small-2">Un.</th>
+                                <th class="font-small-2 text-right">Qtde</th>
+                                <ng-template [ngIf]="showDatasConciliacao">
+                                    <th class="font-small-2 text-right">Lote </th>
+                                    <th class="font-small-2">Fabricação </th>
+                                    <th class="font-small-2">Validade </th>
+                                </ng-template>
+                                <th class="font-small-2">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of nota?.itens">
+                                <td class="font-small-2">{{item.codigo}}</td>
+                                <td class="font-small-2">{{item.descricao}}</td>
+                                <td class="font-small-2">{{item.cfop}}</td>
+                                <td class="font-small-2 text-right">{{item.precoUnitario | number: '1.4-4':'pt'}}</td>
+                                <td class="font-small-2 text-center">{{getDescricaoUnidadeMedida(item.unidade)}}</td>
+                                <td class="font-small-2 text-right">{{item.quantidade}}</td>
+                                <ng-template [ngIf]="showDatasConciliacao">
+                                    <td class="font-small-2 text-right">{{item.lote}}</td>
+                                    <td class="font-small-2">{{item.dataFabricacao | date:'dd/MM/yyyy'}}</td>
+                                    <td class="font-small-2">{{item.dataValidade | date:'dd/MM/yyyy'}}</td>
+                                </ng-template>
+                                <td class="font-small-1" [ngClass]="getItemStatusClass(item.status)">
+                                        {{getItemDescricaoStatus(item.status)}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+<div class="modal-footer">
+    <a href="javascript:void(0)" (click)="close()" class="btn btn-raised btn-raised btn-warning mr-1">
+        <i class="ft-chevron-left"></i> Voltar
+    </a>
+</div>

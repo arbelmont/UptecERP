@@ -1,0 +1,73 @@
+<form novalidate [formGroup]="frm" (ngSubmit)="onSubmit()" class="form">
+
+  <div class="modal-header">
+    <h4 class="modal-title"><i class="ft-mail"></i> Contato</h4>
+    <!-- <h4 class="modal-title">Hi there!</h4> -->
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-body">
+      <div class="row">
+          <div class="col-md-4">
+              <div class="form-group">
+                <label for="numero" class="mb-0">Contato</label>
+                <input type="text" class="form-control form-control-sm" id="contato" ngbAutofocus formControlName="contato">
+                <span class="text-danger font-small-2" *ngIf="displayMessage.contato">
+                  <p class="text-danger font-small-2" [innerHTML]="displayMessage.contato"></p>
+                </span>
+              </div>
+            </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="numero" class="mb-0">Telefone</label>
+            <input type="text" class="form-control form-control-sm" id="numerot" formControlName="numerot">
+            <span class="text-danger font-small-2" *ngIf="displayMessage.numerot">
+              <p class="text-danger font-small-2" [innerHTML]="displayMessage.numerot"></p>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="tipo" class="mb-0">Tipo</label>
+            <select type="text" class="form-control  form-control-sm" id="tipo" formControlName="tipo">
+              <option *ngFor="let tipo of telefoneTipos$ | async" [value]="tipo.value">{{ tipo.name }}</option>
+            </select>
+            <span class="text-danger font-small-2" *ngIf="displayMessage.tipo">
+              <p class="text-danger font-small-2" [innerHTML]="displayMessage.tipo"></p>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="whatsapp" class="mb-0">WhatsApp</label>
+            <select id="whatsapp" formControlName="whatsapp" class="form-control form-control-sm">
+              <option value="true">Sim</option>
+              <option value="false">Não</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="obervacoest" class="mb-0">Observações</label>
+            <input type="text" id="observacoest" class="form-control form-control-sm" formControlName="observacoest">
+            <span class="text-danger font-small-2" *ngIf="displayMessage.observacoest">
+              <p class="text-danger font-small-2" [innerHTML]="displayMessage.observacoest"></p>
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:void(0)" (click)="close()" class="btn btn-raised btn-raised btn-warning mr-1">
+      <i class="ft-chevron-left"></i> Voltar
+    </a>
+    <button type="submit" class="btn btn-raised btn-raised btn-primary" [disabled]="!frm.dirty">
+      <i class="fa fa-check-square-o"></i> Salvar
+    </button>
+  </div>
+</form>

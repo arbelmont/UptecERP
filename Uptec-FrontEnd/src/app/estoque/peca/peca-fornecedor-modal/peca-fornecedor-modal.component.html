@@ -1,0 +1,48 @@
+<form novalidate [formGroup]="frm" (ngSubmit)="onSubmit()" class="form" >
+  <div class="modal-header">
+    <h4 class="modal-title"><i class="icon-basket-loaded"></i> Fornecedor</h4>
+    <!-- <h4 class="modal-title">Hi there!</h4> -->
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="form-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="fornecedorId" class="mb-0">Fornecedor</label>
+            <select type="text" class="form-control form-control-sm font-small-1" id="fornecedorId" ngbAutofocus formControlName="fornecedorId">
+              <option value="">Selecione...</option>
+              <option *ngFor="let fornecedor of fornecedores" [value]="fornecedor.value">
+                {{ fornecedor.name }}</option>
+            </select>
+            <span class="text-danger font-small-2" *ngIf="displayMessage.fornecedorId">
+              <p class="text-danger font-small-2" [innerHTML]="displayMessage.fornecedorId"></p>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="fornecedorCodigo" class="mb-0">Código da Peça</label>
+            <input type="text" class="form-control form-control-sm" id="fornecedorCodigo"
+              formControlName="fornecedorCodigo">
+            <span class="text-danger font-small-2" *ngIf="displayMessage.fornecedorCodigo">
+              <p class="text-danger font-small-2" [innerHTML]="displayMessage.fornecedorCodigo"></p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:void(0)" (click)="activeModal.dismiss('')" class="btn btn-raised btn-raised btn-warning mr-1">
+      <i class="ft-chevron-left"></i> Voltar
+    </a>
+    <button type="submit" class="btn btn-raised btn-raised btn-info" [disabled]="!frm.dirty">
+      <i class="fa fa-check-square-o"></i> Aplicar
+    </button>
+  </div>
+</form>

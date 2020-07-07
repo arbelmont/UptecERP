@@ -1,0 +1,135 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="content-header"><a [routerLink]="['/componente']" class="black">Movimentações de Estoque ({{componente.descricao}})</a></div>
+  </div>
+</div>
+<div class="row text-left">
+  <div class="col-sm-9">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-block">
+          <div class="row">
+            <div class="input-group input-group-sm col-md-4" title="Data Inicial" >
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ft-calendar" ></i></span>
+              </div>
+              <input type="date" class="form-control" placeholder="Data Inicial dd/mm/aaaa" [(ngModel)]="startDate">
+            </div>
+            <div class="input-group input-group-sm col-md-4" title="Data Final">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="ft-calendar"></i></span>
+              </div>
+              <input type="date" class="form-control" placeholder="Data Final  dd/mm/aaaa" [(ngModel)]="endDate">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-raised btn-primary btn-sm" type="button" (click)="getMovimentos()">
+                  <i class="fa fa-search"></i> Pesquisar
+                </button>
+            </div>
+            <!-- <div class="col-sm-2">
+                <div class="floating-btn-small ">
+                    <a href="javascript:void(0)" class="btn btn-warning mr-1 btn-fab btn-sm" title="Entrada manual de estoque"><i class="ft-download"></i></a>
+                    <a href="javascript:void(0)" class="btn btn-danger mr-1 btn-fab btn-sm" title="Saída manual de estoque"><i class="ft-upload"></i></a>
+                </div>
+            </div> -->
+          </div>
+          <table class="table table-sm table-hover mb-0" *ngIf="movimentos; else loading">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Data</th>
+                <th>Histórico</th>
+                <th>E/S</th>
+                <th class="text-right">Qtde</th>
+                <th class="text-right">Saldo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let movimento of movimentos' [ngClass]="getClass(movimento.tipoMovimento)">
+                 <td> <a href="javascript:void(0)" (click)="showMovimentoDetatlhe(movimento.id)" title="Detalhes"><span
+                    class="ft-zoom-in text-warning font-medium-2"></span></a>
+                  </td>
+                <td>{{movimento.data | date:'dd/MM/yyyy'}}</td>
+                <td class="font-small-1">{{movimento.historico | truncateString}}</td>
+                <td>{{ getTipoMovimento(movimento.tipoMovimento) }}</td>
+                <td class="text-right">{{ (movimento.tipoMovimento == 1 ? movimento.quantidade  : (movimento.quantidade * -1)) | number: '1.4-4':'pt'}}</td>
+                <td class="text-right">{{movimento.saldo | number: '1.4-4':'pt' | noThousandSeparatorPipe}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <ng-template #loading>
+            <span>...</span>
+          </ng-template>
+          <div class="row">
+            <div class="col-md-6">
+              <ngb-pagination [collectionSize]="listService.totalItems" [page]="listService.currentPage"
+                [pageSize]="listService.itemsPerPage" (pageChange)="pageChanged($event)" size="sm" class="ml-2"
+                *ngIf="showPagination">
+              </ngb-pagination>
+            </div>
+            <div class="col-md-6 mt-3 text-md-right">
+              <label class="">Total: {{ this.listService.totalItems }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="card">
+      <!-- <div class="card-header">
+        
+      </div> -->
+      <div class="card-body">
+        <div class="card-block">
+            
+          <table class="mb-0">
+            <tr>
+              <td colspan="2">
+                  <div class="floating-btn-small">
+                      <a href="javascript:void(0)" class="btn btn-info mr-1 btn-fab btn-sm" title="Entrada manual de estoque" (click)="addMovimento('E')"><i class="ft-download"></i></a>
+                      <a href="javascript:void(0)" class="btn btn-danger mr-1 btn-fab btn-sm" title="Saída manual de estoque" (click)="addMovimento('S')"><i class="ft-upload"></i></a>
+                      <a href="javascript:void(0)" class="btn btn-warning mr-1 btn-fab btn-sm" title="Editar Componente"><i class="ft-edit"></i></a>
+                      <a [routerLink]="['/componente']" class="btn btn-grey mr-1 btn-fab btn-sm" title="Voltar"><i class="ft-corner-up-left"></i></a>
+                  </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-small-1 text-primary" colspan="2">{{componente.descricao}}</td>
+            </tr>
+            <tr>
+              <th>Código:</th>
+              <td class="text-right">{{ componente.codigo }}</td>
+            </tr>
+            <tr>
+              <th>Ncm:</th>
+              <td class="text-right">{{ componente.ncm }}</td>
+            </tr>
+            <!-- <tr></tr> -->
+            <tr>
+              <th>Preço:</th>
+              <td class="text-right">{{ componente.preco | number: '1.2-4':'pt' }}</td>
+            </tr>
+            <tr>
+              <th>Qtde:</th>
+              <td class="text-right">{{ componente.quantidade | number: '1.2-4':'pt' | noThousandSeparatorPipe }}</td>
+            </tr>
+            <tr>
+              <th>Qtde Mín:</th>
+              <td class="text-right">{{ componente.quantidadeMinima | number: '1.2-4':'pt' | noThousandSeparatorPipe }}</td>
+            </tr>
+            <tr>
+              <th>Nível:</th>
+              <td class="text-right">
+                <app-componente-progress [quantidade]="componente.quantidade"
+                  [quantidadeMinima]="componente.quantidadeMinima">
+                </app-componente-progress>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

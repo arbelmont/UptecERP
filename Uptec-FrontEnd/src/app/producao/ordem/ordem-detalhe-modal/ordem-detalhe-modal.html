@@ -1,0 +1,108 @@
+<div class="modal-header">
+    <h4 class="modal-title"><span class="ft-zoom-in mr-1"></span>Detalhes da Ordem de Produção
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+            <h5 class="ml-2 "> Dados da Emissão </h5>
+            <table class="mb-0 table-sm">
+                <tr class="m-0">
+                    <th class="m-0 font-small-2">Número da Ordem:</th>
+                    <td class="m-0 font-small-2"> {{ ordem?.ordemNumero }}</td>
+                </tr>
+
+                <tr>
+                    <th class="font-small-2">Código:</th>
+                    <td class="font-small-2">{{ ordem?.codigoPeca}}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Peça:</th>
+                    <td class="font-small-2">{{ ordem?.descricaoPeca}}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Lotes:</th>
+                    <td class="font-small-2">{{ getLotes() }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Data Emissão:</th>
+                    <td class="font-small-2">{{ ordem?.dataEmissao | date:'dd/MM/yyyy' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Quantidade:</th>
+                    <td class="font-small-2">{{ ordem?.qtdeTotal }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h5 class="ml-2"> Dados da Produção</h5>
+            <table class="mb-0 table-sm">
+                <tr>
+                    <th class="font-small-2">Data Produção:</th>
+                    <td class="font-small-2">{{ ordem?.dataProducao | date:'dd/MM/yyyy' }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Quantidade Produzida:</th>
+                    <td class="font-small-2">{{ ordem?.qtdeTotalProduzida }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Sobra de Produção:</th>
+                    <td class="font-small-2">{{ getSobra(ordem?.qtdeTotal, ordem?.qtdeTotalProduzida) }}</td>
+                </tr>
+                <tr>
+                    <th class="font-small-2">Status Atual:</th>
+                    <td class="font-small-2" [ngClass]="getStatusClass(ordem?.status)">{{ getDescricaoStatus(ordem?.status)}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-12">
+            <div class="card" *ngIf="ordem">
+                <div class="card-header pb-0">
+                    <div class="card-title">
+                        <h5><span><i class="ft-package"></i></span> Lotes</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table-sm table-hover ml-2 mb-3">
+                        <thead>
+                            <tr>
+                                <th class="font-small-1">Lote</th>
+                                <th class="font-small-1">Código</th>
+                                <th class="font-small-1">Peça</th>
+                                <th class="font-small-1 text-right">Qtde Solicitada</th>
+                                <th class="font-small-1">Produção</th>
+                                <th class="font-small-1 text-right">Qtde Produzida</th>
+                                <th class="font-small-1">Validade</th>
+                                <th class="font-small-1 text-right">Excedente</th>
+                                <th class="font-small-1 text-right">Nfe Saída</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let lote of ordem.ordemLotes">
+                                <td class="font-small-1">{{lote.loteSequenciaString}}</td>
+                                <td class="font-small-1">{{ordem.codigoPeca}}</td>
+                                <td class="font-small-1">{{ordem.descricaoPeca}}</td>
+                                <td class="font-small-1 text-right">{{lote.qtde}}</td>
+                                <td class="font-small-1">{{getDescricaoMotivo(lote.motivoExpedicao)}}</td>
+                                <td class="font-small-1 text-right">{{lote.qtdeProduzida}}</td>
+                                <td class="font-small-1">{{lote.validade | date:'dd/MM/yyyy'}}</td>
+                                <td class="font-small-1 text-right">{{ getSobra(lote.qtde, lote.qtdeProduzida)}}</td>
+                                <td class="font-small-1 text-right">{{lote.notaFiscalSaida}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <a href="javascript:void(0)" (click)="close()" class="btn btn-raised btn-raised btn-warning mr-1">
+        <i class="ft-chevron-left"></i> Voltar
+    </a>
+</div>

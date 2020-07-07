@@ -1,0 +1,59 @@
+<section id="login">
+    <div class="container-fluid">
+        <div class="row full-height-vh">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <div class="card bg-blue-grey bg-darken-2 text-center width-400">
+                    <div class="card-header">
+                        <div class="card-image text-center">
+                            <i class="icon-key font-large-5 blue-grey lighten-4"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-block">
+                                <ngb-alert *ngIf="failMessage" type="danger" (close)="failMessage = null">{{ failMessage }}</ngb-alert>
+                            <h2 class="white">Login Uptec</h2>
+                            <form novalidate="" (ngSubmit)="onSubmit()" #f="ngForm">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="email" class="form-control" name="inputEmail" id="inputEmail"
+                                            placeholder="Email" ngModel required email>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="password" class="form-control" name="inputPass" id="inputPass"
+                                            placeholder="Senha" ngModel required>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0 ml-3">
+                                                <input type="checkbox" class="custom-control-input" checked id="rememberme">
+                                                <label class="custom-control-label float-left white" for="rememberme">Remember
+                                                    Me</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary btn-block btn-raised">Entrar</button>
+                                        <!-- <button type="button" class="btn btn-secondary btn-block btn-raised">Cancel</button> -->
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-blue-grey bg-darken-3">
+                        <div class="float-center"><a (click)="onForgotPassword()" class="white">Esqueci minha senha</a></div>
+                        <!-- <div class="float-right"><a (click)="onRegister()" class="white">New User?</a></div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

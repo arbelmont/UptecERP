@@ -1,0 +1,146 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="content-header">Conciliação de Notas</div>
+  </div>
+</div>
+
+<div class="row text-left">
+  <div class="col-md-3">
+    <div class="card mr-0">
+      <div class="card-body">
+        <div class="card-block pb-2">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="floating-btn-small">
+                <a href="javascript:void(0)" class="btn btn-success mr-1 btn-fab btn-sm" title="Pesquisar"
+                  (click)="search()"><i class="ft-search"></i></a>
+                <a href="javascript:void(0)" class="btn btn-info mr-1 btn-fab btn-sm" title="Upload de Notas"
+                  (click)="uploadNota()"><i class="ft-upload"></i></a>
+                <!-- <a [routerLink]="['/dashboard']" class="btn btn-grey mr-1 btn-fab btn-sm" title="Voltar"><i
+                        class="ft-corner-up-left"></i></a> -->
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="mb-0">Tipo Emissor</label>
+                <select type="text" class="form-control  form-control-sm" [(ngModel)]="tipoEmissor">
+                  <option value="0">Todos</option>
+                  <option *ngFor="let tipo of tipoEmissor$ | async" [value]="tipo.value">
+                    {{ tipo.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="mb-0">Status</label>
+                <select type="text" class="form-control  form-control-sm" [(ngModel)]="status">
+                  <option value="0">Todos</option>
+                  <option *ngFor="let status of statusNfEntrada" [value]="status.value">
+                    {{ status.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <label class="mb-0">De</label>
+              <div class="input-group input-group-sm" title="Data Inicial">
+
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ft-calendar"></i></span>
+                </div>
+                <input type="date" class="form-control font-small-2" placeholder="dd/mm/aaaa" [(ngModel)]="startDate">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <label class="mb-0">Até</label>
+              <div class="input-group input-group-sm" title="Data Final">
+
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ft-calendar"></i></span>
+                </div>
+                <input type="date" class="form-control font-small-2" placeholder="dd/mm/aaaa" [(ngModel)]="endDate">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="mb-0">Pesquisa</label>
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="listService.searchText">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <a href="javascript:void(0)" (click)="search()" class="btn btn-raised btn-success">Pesquisar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-md-9 ">
+    <div class="card ml-0">
+      <div class="card-body">
+        <div class="card-block">
+          <table class="table table-sm table-hover mb-0" *ngIf="notasEntrada; else loading">
+            <thead>
+              <tr>
+                <th class=""></th>
+                <th class="font-small-2">Data</th>
+                <th class="font-small-2">Nf</th>
+                <th class="font-small-2">Tipo</th>
+                <th class="font-small-2">Cnpj</th>
+                <th class="font-small-2">Emissor</th>
+                <!-- <th>Email</th> -->
+                <th class="font-small-2">Cfop</th>
+                <th class="text-right font-small-2">Valor</th>
+                <th class="font-small-2">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let nota of notasEntrada'>
+                <td class="text-right">
+                    <a href="javascript:void(0)" *ngIf="showTipoEmissor(nota.tipoEmissor)" (click)="definirTipoEmissor(nota.id)"
+                    title="Definir o Tipo de Emissor"><span class="ft-alert-octagon text-warning font-medium-2 mr-1"></span></a>
+                  <a href="javascript:void(0)" *ngIf="showConciliar(nota.status, nota.tipoEmissor)" (click)="conciliarNota(nota.id)"
+                    title="Conciliar Nota"><span class="ft-check-circle text-warning font-medium-2 mr-1"></span></a>
+                  <a href="javascript:void(0)" *ngIf="showExcluir(nota.status)" (click)="confirmDelete(nota.id)" title="Excluir Nota"><span
+                      class="ft-trash text-danger font-medium-2 mr-1"></span></a>
+                  <a href="javascript:void(0)" *ngIf="showCobrir(nota.status)" (click)="cobrirNota(nota.id)"
+                       title="Efetuar Cobertura dessa Nota"><span
+                      class="ft-refresh-cw  text-info font-medium-2 mr-1"></span></a>
+                  <a href="javascript:void(0)" title="Detalhes da Nota" (click)="detalharNota(nota.id)"><span
+                      class="ft-zoom-in text-success font-medium-2 mr-1"></span></a>
+                </td>
+                <td class="font-small-1">{{ nota.data | date:'dd/MM/yyyy' }}</td>
+                <td class="font-small-1">{{ nota.numeroNota }}</td>
+                <td class="font-small-1">{{ getDescricaoTipoEmissor(nota.tipoEmissor) }}</td>
+                <td class="font-small-1">{{ nota.cnpjEmissor }}</td>
+                <td class="font-small-1">{{ nota.nomeEmissor | truncateString:25 }}</td>
+                <td class="font-small-1">{{ nota.cfop }}</td>
+                <td class="text-right font-small-1">{{nota.valor | number: '1.2-2':'pt'}}</td>
+                <td class="font-small-1"><span
+                    [ngClass]="getStatusClass(nota.status)">{{ getDescricaoStatus(nota.status)  }}</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <ng-template #loading>
+            <app-progress></app-progress>
+          </ng-template>
+          <div class="row">
+            <div class="col-md-6">
+              <ngb-pagination [collectionSize]="listService.totalItems" [page]="listService.currentPage"
+                [pageSize]="listService.itemsPerPage" (pageChange)="pageChanged($event)" 
+                [rotate]="true" [ellipses]="true" [maxSize]="listService.maxSize"
+                size="sm" class="ml-2"
+                *ngIf="showPagination">
+              </ngb-pagination>
+            </div>
+            <div class="col-md-6 mt-3 text-md-right">
+              <label class="">Total: {{ this.listService.totalItems }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

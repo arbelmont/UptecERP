@@ -1,0 +1,103 @@
+<div class="row text-left">
+  <div class="col-12">
+    <div class="content-header"><a [routerLink]="['/componente']" class="black">Matéria Prima</a></div>
+  </div>
+</div>
+
+<div class="row text-left">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title" id="basic-layout-form">Novo Produto</h4>
+      </div>
+      <div class="card-body">
+        <div class="px-3">
+          <form novalidate [formGroup]="frm" (ngSubmit)="onSubmit()" class="form" scrollFirstInvalid>
+            <div class="form-body">
+              <!-- <h4 class="form-section"><i class="ft-layers"></i> Dados do Componente</h4> -->
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="codigo" class="mb-0">Código</label>
+                    <input type="text" class="form-control form-control-sm" id="codigo" formControlName="codigo">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.codigo">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.codigo"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="ncm" class="mb-0">Ncm</label>
+                    <input type="text" class="form-control form-control-sm" id="ncm" formControlName="ncm">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.ncm">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.ncm"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="descricao" class="mb-0">Descrição</label>
+                    <input type="text" class="form-control form-control-sm" id="descricao" formControlName="descricao">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.descricao">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.descricao"></p>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="unidade" class="mb-0">Unidade de Medida</label>
+                    <select type="text" class="form-control  form-control-sm" id="unidade" formControlName="unidade">
+                      <option *ngFor="let unidade of unidadesMedida$ | async" [value]="unidade.value">{{ unidade.name }}</option>
+                    </select>
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.unidade">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.unidade"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="quantidade" class="mb-0">Quantidade Inicial</label>
+                    <input type="text" class="form-control form-control-sm text-right" id="quantidade"
+                      formControlName="quantidade" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.quantidade">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.quantidade"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="quantidadeMinima" class="mb-0">Quantidade Mínima</label>
+                    <input type="text" class="form-control form-control-sm text-right" id="quantidadeMinima"
+                      formControlName="quantidadeMinima" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }">
+                    <span class="text-danger font-small-2" *ngIf="displayMessage.quantidadeMinima">
+                      <p class="text-danger font-small-2" [innerHTML]="displayMessage.quantidadeMinima"></p>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="preco" class="mb-0">Preço Inicial</label>
+                      <input type="text" currencyMask class="form-control form-control-sm" id="preco"
+                        formControlName="preco" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }">
+                      <span class="text-danger font-small-2" *ngIf="displayMessage.preco">
+                        <p class="text-danger font-small-2" [innerHTML]="displayMessage.preco"></p>
+                      </span>
+                    </div>
+                  </div>
+              </div>
+              <div class="form-actions">
+                <a [routerLink]="['/componente']" class="btn btn-raised btn-raised btn-warning mr-1">
+                  <i class="ft-chevron-left"></i> Voltar
+                </a>
+                <button type="submit" class="btn btn-raised btn-raised btn-primary" [disabled]="!frm.dirty">
+                  <i class="fa fa-check-square-o"></i> Salvar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

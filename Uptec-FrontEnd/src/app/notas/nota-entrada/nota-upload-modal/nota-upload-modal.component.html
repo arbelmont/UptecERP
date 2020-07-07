@@ -1,0 +1,35 @@
+<form novalidate [formGroup]="frm" (ngSubmit)="onSubmit()" class="form">
+  <div class="modal-header">
+    <h4 class="modal-title"><i class="ft-inbox"></i> Upload de Nota Fiscal (.xml)</h4>
+    <!-- <h4 class="modal-title">Hi there!</h4> -->
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="form-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="file" class="mb-0">Arquivo</label>
+            <input type="file" class="form-control-file" id="file" accept="text/xml"
+                #file (change)="onFileChange($event)">
+              <span class="text-danger font-small-2" *ngIf="uploadMessage">
+                <p class="text-danger font-small-2" [innerHTML]="uploadMessage"></p>
+              </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <a href="javascript:void(0)" (click)="activeModal.dismiss('')" class="btn btn-raised btn-raised btn-warning mr-1">
+      <i class="ft-chevron-left"></i> Voltar
+    </a>
+    <button type="submit" class="btn btn-raised btn-raised btn-primary">
+      <i class="ft-upload"></i> Upload
+    </button>
+  </div>
+</form>
