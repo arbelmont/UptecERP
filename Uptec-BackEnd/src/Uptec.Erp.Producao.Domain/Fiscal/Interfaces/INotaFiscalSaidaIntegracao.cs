@@ -13,6 +13,6 @@ namespace Uptec.Erp.Producao.Domain.Fiscal.Interfaces
 
         bool TryObterArquivo(string caminhoArquivo, out byte[] conteudoArquivo, out MensagemErro mensagemErro);
 
-        bool Cancelar(string numeroNota);
+        bool Cancelar(string numeroNota, out MensagemErro mensagemErro);
     }
 }

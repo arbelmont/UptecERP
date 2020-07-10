@@ -44,6 +44,17 @@ export class NotaSaidaDetalheModalComponent implements OnInit {
       });
   }
 
+  Cancelar() {
+    this.service.CancelSefaz(this.notaSaidaId).pipe(take(1))
+    .subscribe(n => {
+      this.nota = n;
+      if (this.nota.tipoDestinatario == TipoDestinatario.Cliente)
+        this.nota.destinatario = this.nota.cliente;
+      else
+        this.nota.destinatario = this.nota.fornecedor;
+    });
+}
+
   reenviarNota() {
     this.service.reenviar(this.notaSaidaId).pipe(take(1))
       .subscribe(n => {

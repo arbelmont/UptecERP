@@ -83,6 +83,11 @@ namespace Uptec.Erp.Producao.Domain.Fiscal.Services
             throw new NotImplementedException();
         }
 
+        public bool Cancelar(string notaSaida, out MensagemErro mensagemErro)
+        {
+            return _notaFiscalSaidaIntegracao.Cancelar(notaSaida, out mensagemErro);
+        }
+
         public bool TryConsultar(string numeroNota, out ConsultaNfeIntegracao consultaNfeIntegracao, out MensagemErro mensagemErro, bool completa = false)
         {
             return _notaFiscalSaidaIntegracao.TryConsultar(numeroNota, out consultaNfeIntegracao, out mensagemErro);
@@ -213,5 +218,6 @@ namespace Uptec.Erp.Producao.Domain.Fiscal.Services
             _notaSaidaRepository?.Dispose();
             GC.SuppressFinalize(this);
         }
+
     }
 }

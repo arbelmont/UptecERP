@@ -62,15 +62,16 @@ namespace Uptec.Erp.Infra.HttpClient
             return await builder.SendAsync();
         }
 
-        public static async Task<HttpResponseMessage> Delete(string requestUri)
-            => await Delete(requestUri, "");
+        public static async Task<HttpResponseMessage> Delete(string requestUri, object value)
+            => await Delete(requestUri, value, "");
 
         public static async Task<HttpResponseMessage> Delete(
-            string requestUri, string bearerToken)
+            string requestUri, object value, string bearerToken)
         {
             var builder = new HttpRequestBuilder()
                                 .SetMethod(HttpMethod.Delete)
                                 .SetRequestUri(requestUri)
+                                .SetContent(new JsonContent(value))
                                 .SetBearerToken(bearerToken);
 
             return await builder.SendAsync();
