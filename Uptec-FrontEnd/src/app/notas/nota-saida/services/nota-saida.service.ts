@@ -9,6 +9,7 @@ import { NotaSaida } from '../models/nota-saida';
 import { ResponseContentType } from '@angular/http';
 import { OrdemLote } from 'app/producao/ordem/models/ordem';
 import { Lote } from 'app/estoque/lote/models/lote';
+import { AnyFn } from '@ngrx/store/src/selector';
 
 @Injectable()
 export class NotaSaidaService extends BaseService {
@@ -44,6 +45,12 @@ export class NotaSaidaService extends BaseService {
 
     delete(id: string) {
         return this.http.delete(`${this.API}/NotaSaida/${id}`);
+    }
+
+    CancelSefaz(id: string): any {
+        return this.http.delete<NotaSaida>(`${this.API}/NotaSaida/CancelSefaz/${id}`)
+            .pipe(map((res: any) => this.extractData(res)),
+                catchError(err => throwError(err)));
     }
 
     reenviar(id: string): any {

@@ -20,6 +20,8 @@ namespace Uptec.Erp.Producao.Domain.Fiscal.Interfaces
 
         AliquotaImpostos GetAliquotaImpostos(string uf);
 
+        bool Cancelar(string numeroNota,  out MensagemErro mensagemErro);
+
         bool TryEnviar(NotaSaida notaSaida, out MensagemErro mensagemErro);
         NotaSaida Reenviar(Guid notaId, out bool hasChanges);
 

@@ -119,6 +119,26 @@ namespace Uptec.Erp.Api.Controllers.v1.Fiscal.NotasSaida
             return Response();
         }
 
+        [HttpDelete("CancelSefaz/{id:guid}")]
+        public IActionResult CancelSefaz(Guid id)
+        {
+            if (!IsValidModelState()) return Response();
+
+            var notaSaida = _notaSaidaRepository.GetByIdWithAggregate(id);
+
+            if (notaSaida !=null) { 
+
+                if (!_notaSaidaService.Cancelar(notaSaida.NumeroNota, out var result))
+                    return Response(result);
+            }
+            
+            notaSaida.SetStatus(StatusNfSaida.Cancelada, "");
+
+            _notaSaidaRepository.UpdateStatus(notaSaida);
+
+            return Response();
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] NotaSaidaAddViewModel viewModel)
         {

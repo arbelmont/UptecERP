@@ -110,9 +110,11 @@
                 <button type="button" class="btn btn-sm btn-fab btn-info" *ngIf="showDownloads()" title="Download Pdf" (click)="downloadPdf()">Pdf</button>
                 <button type="button" class="btn btn-sm btn-fab btn-warning" *ngIf="showDownloads()" title="Download Xml" (click)="downloadXml()">Xml</button>
                 <button type="button" class="btn btn-sm btn-fab btn-warning" *ngIf="showReenviar()" title="Reenviar nota" (click)="reenviarNota()">
+                <button type="button" class="btn btn-sm btn-fab btn-danger" (click)="Cancelar()" title="Cancelar">Cancelar</button>    
                     <i class="ft-upload-cloud"></i></button>
                 <button type="button" class="btn btn-sm btn-fab btn-success" (click)="getNota()" title="Atualizar"><i
                         class="ft-refresh-cw"></i></button>
+                
             </div>
         </div>
     </div>

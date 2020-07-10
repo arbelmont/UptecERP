@@ -70,11 +70,24 @@ namespace Uptec.Erp.Producao.Infra.Integracao.NFe.Services
             return true;
         }
 
-        public bool Cancelar(string numeroNota)
+        public bool Cancelar(string numeroNota, out MensagemErro mensagemErro)
         {
-            var url = $"{_urlRaiz}{ObterConfiguracao("ApiNfe", "UrlCancelamentoNota")}";
+            var url = $"{_urlRaiz}{ObterConfiguracao("ApiNfe", "UrlCancelamentoNota").Replace("<REFERENCIA>", numeroNota)}";
 
-            throw new NotImplementedException();
+            var justificativa = new ManifestacaoNfeDto();
+
+            justificativa.justificativa = "Erro Sistema";
+
+            var response = HttpRequestFactory.Delete(url, justificativa ,_token).Result;
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                mensagemErro = response.ContentAsType<MensagemErro>();
+                return false;
+            }
+
+            mensagemErro = null;
+            return true;
         }
 
         public bool TryObterArquivo(string CaminhoArquivo, out byte[] conteudoArquivo, out MensagemErro mensagemErro)
