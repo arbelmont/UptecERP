@@ -33,7 +33,7 @@ namespace Uptec.Erp.Api.Controllers.v1.Fiscal.NotasEntrada
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
 
     public class NotaEntradaController : BaseController
     {
