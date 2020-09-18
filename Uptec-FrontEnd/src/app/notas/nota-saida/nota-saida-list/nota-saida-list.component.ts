@@ -147,7 +147,7 @@ export class NotaSaidaListComponent extends BaseListComponet implements OnInit {
       text: nome,
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Sim, excluir!',
+      confirmButtonText: 'Sim, emitir!',
       cancelButtonText: 'Não, cancelar!',
       confirmButtonClass: 'btn btn-success btn-raised mr-5',
       cancelButtonClass: 'btn btn-danger btn-raised',

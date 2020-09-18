@@ -76,7 +76,7 @@ export class NotaAddPecaAvulsaComponent extends BaseListComponet implements OnIn
       text: `Destinatário: ${this.destinatario.nomeFantasia}`,
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Sim, excluir!',
+      confirmButtonText: 'Sim, emitir!',
       cancelButtonText: 'Não, cancelar!',
       confirmButtonClass: 'btn btn-success btn-raised mr-5',
       cancelButtonClass: 'btn btn-danger btn-raised',
