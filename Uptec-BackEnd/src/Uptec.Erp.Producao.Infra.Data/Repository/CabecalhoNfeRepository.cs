@@ -38,8 +38,8 @@ namespace Uptec.Erp.Producao.Infra.Data.Repository
 
             if (cabecalho != null && cabecalho.Any())
                 return cabecalho.FirstOrDefault().Versao;
-
-            return 98948;
+            else
+                return 98948;
         }
     }
 }

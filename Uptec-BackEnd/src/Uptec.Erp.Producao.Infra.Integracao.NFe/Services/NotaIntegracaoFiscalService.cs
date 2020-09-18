@@ -74,11 +74,11 @@ namespace Uptec.Erp.Producao.Infra.Integracao.NFe.Services
         {
             var url = $"{_urlRaiz}{ObterConfiguracao("ApiNfe", "UrlCancelamentoNota").Replace("<REFERENCIA>", numeroNota)}";
 
-            var justificativa = new ManifestacaoNfeDto();
+            var justif = new CancelamentoNfeDto();
 
-            justificativa.justificativa = "Erro Sistema";
+            justif.justificativa = "Erro na atualização do Sistema";
 
-            var response = HttpRequestFactory.Delete(url, justificativa ,_token).Result;
+            var response = HttpRequestFactory.Delete(url, justif ,_token).Result;
 
             if (response.StatusCode != HttpStatusCode.OK)
             {

@@ -45,4 +45,6 @@
   <ItemGroup>
     <Content Include="..\Uptec.Erp.Api\appsettings.json" Link="appsettings.json" />
   </ItemGroup>
+  
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 </Project>
